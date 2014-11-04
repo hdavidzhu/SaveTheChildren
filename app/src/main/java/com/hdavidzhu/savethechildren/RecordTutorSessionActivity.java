@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -70,10 +69,11 @@ public class RecordTutorSessionActivity extends Activity {
     }
 
     public static void postNewForm(Context context, final Form form){
-        // Instantiate the RequestQueue.
+        // Instantiate the RequestQueuve.
         final RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://www.google.com/";
-        //posting queue
+        String url = "localhost:3000/";
+
+        // Posting queue.
         final StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -98,12 +98,8 @@ public class RecordTutorSessionActivity extends Activity {
                 return formMap;
             }
         };
-    }
 
-    public interface PostFormResponseListener {
-        public void requestStarted();
-        public void requestCompleted();
-        public void requestEndedWithError(VolleyError error);
+        queue.add(request);
     }
 
     @Override
