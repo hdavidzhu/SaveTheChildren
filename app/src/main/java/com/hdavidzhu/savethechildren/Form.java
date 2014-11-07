@@ -44,11 +44,11 @@ public class Form {
         JSONObject jsonForm = new JSONObject();
         try {
             jsonForm.put("name", this.name);
-            jsonForm.put("starttime", this.starttime);
-            jsonForm.put("startdate", this.startdate);
-            jsonForm.put("endtime", this.endtime);
-            jsonForm.put("enddate", this.enddate);
-            jsonForm.put("notes", this.notes);
+//            jsonForm.put("starttime", this.starttime);
+//            jsonForm.put("startdate", this.startdate);
+//            jsonForm.put("endtime", this.endtime);
+//            jsonForm.put("enddate", this.enddate);
+//            jsonForm.put("notes", this.notes);
         }
         catch (JSONException e) {
             Log.d("Some tag", Log.getStackTraceString(e.getCause().getCause()));
