@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,11 +24,9 @@ public class RecordTutorSessionActivity extends Activity {
     Context context;
 
     EditText nameEditText;
-    EditText startTimeEditText;
-    EditText startDateEditText;
-    EditText endTimeEditText;
-    EditText endDateEditText;
     EditText notesEditText;
+    TimePicker timePicker;
+    DatePicker datePicker;
     Button submitButton;
 
     View.OnClickListener submitButtonListener;
@@ -39,11 +39,9 @@ public class RecordTutorSessionActivity extends Activity {
         context = getApplicationContext();
 
         nameEditText = (EditText) findViewById(R.id.et_name);
-        startTimeEditText = (EditText) findViewById(R.id.et_start_time);
-        startDateEditText = (EditText) findViewById(R.id.et_start_date);
-        endTimeEditText = (EditText) findViewById(R.id.et_end_time);
-        endDateEditText = (EditText) findViewById(R.id.et_end_date);
-        notesEditText = (EditText) findViewById(R.id.et_additional_notes);
+        notesEditText = (EditText) findViewById(R.id.et_notes);
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
         submitButton = (Button) findViewById(R.id.bt_submit);
 
         submitButtonListener = new View.OnClickListener() {
@@ -51,18 +49,15 @@ public class RecordTutorSessionActivity extends Activity {
             public void onClick(View v) {
                 Form form = new Form(
                         nameEditText.getText().toString(),
-                        startTimeEditText.getText().toString(),
-                        startDateEditText.getText().toString(),
-                        endTimeEditText.getText().toString(),
-                        endDateEditText.getText().toString(),
-                        notesEditText.getText().toString()
-                );
+                        datePicker.getYear(),
+                        datePicker.getMonth(),
+                        datePicker.getDayOfMonth(),
+                        timePicker.getCurrentHour(),
+                        timePicker.getCurrentMinute(),
+                        notesEditText.getText().toString());
 
                 JSONObject jsonForm = form.javaToJSONObjectConverter();
-                Log.d("something","something");
                 postNewForm(context, jsonForm);
-                Log.d("something","something2");
-
             }
         };
 
