@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,83 +6,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MyActivity">
-
+    tools:context=".MyActivity"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/et_name"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:ems="10"
-        android:hint="Name"
+        android:hint="Student Name"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/et_start_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/et_name"
+        android:id="@+id/et_notes"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
         android:ems="10"
-        android:hint="Start Time"
-        android:inputType="time" />
-
-    <EditText
-        android:id="@+id/et_start_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/et_start_time"
-        android:ems="10"
-        android:hint="Start Date"
-        android:inputType="date" />
-
-    <EditText
-        android:id="@+id/et_end_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/et_start_date"
-        android:ems="10"
-        android:hint="End Time"
-        android:inputType="time" />
-
-    <EditText
-        android:id="@+id/et_end_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/et_end_time"
-        android:ems="10"
-        android:hint="End Date"
-        android:inputType="date" />
-
-    <EditText
-        android:id="@+id/et_additional_notes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/et_end_date"
-        android:ems="10"
-        android:hint="Additional Notes"
+        android:hint="Notes"
         android:inputType="textMultiLine" />
+
+    <TimePicker
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"/>
+
+    <DatePicker
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:calendarViewShown="false"
+        android:layout_below="@+id/datePicker"/>
 
     <Button
         android:id="@+id/bt_submit"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_below="@id/et_additional_notes"
         android:text="Submit" />
 
-</RelativeLayout>
+</LinearLayout>
