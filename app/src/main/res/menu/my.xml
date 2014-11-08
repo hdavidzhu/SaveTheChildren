@@ -5,4 +5,14 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+
+    <item android:id="@+id/new_entry"
+        android:title="@string/new_student_entry"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/roster"
+        android:title="@string/roster"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
 </menu>

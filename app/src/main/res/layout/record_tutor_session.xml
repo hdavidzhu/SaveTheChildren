@@ -18,7 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Student Name"
+        android:hint="@string/student_name"
         android:inputType="textPersonName" />
 
     <EditText
@@ -26,7 +26,7 @@
         android:layout_width="fill_parent"
         android:layout_height="100dp"
         android:ems="10"
-        android:hint="Notes"
+        android:hint="@string/teacher_notes"
         android:inputType="textMultiLine" />
 
     <TimePicker
@@ -45,7 +45,7 @@
         android:id="@+id/bt_submit"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Submit" />
+        android:text="@string/submit" />
 
 </LinearLayout>
 

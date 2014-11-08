@@ -1,8 +1,8 @@
 package com.hdavidzhu.savethechildren;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +16,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.hdavidzhu.savethechildren.TabHelper.TabHelper;
 
 import org.json.JSONObject;
 
-public class RecordTutorSessionActivity extends Activity {
+public class RecordTutorSessionActivity extends FragmentActivity {
 
     Context context;
 
@@ -35,6 +36,9 @@ public class RecordTutorSessionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_tutor_session);
+
+        TabHelper tabHelper = TabHelper.createInstance(this);
+        tabHelper.setUp();
 
         context = getApplicationContext();
 
