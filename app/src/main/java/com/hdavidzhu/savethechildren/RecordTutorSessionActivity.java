@@ -1,14 +1,20 @@
 package com.hdavidzhu.savethechildren;
-
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import com.example.android.supportv4.R;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,9 +34,13 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-public class RecordTutorSessionActivity extends Activity {
+import com.hdavidzhu.savethechildren.TabHelper.TabHelper;
 
-    Context context;
+import org.json.JSONObject;
+
+public class RecordTutorSessionActivity extends Fragment {
+    private RecordTutorSessionActivity fragmentTabHost;
+
 
     EditText nameEditText;
     EditText notesEditText;
@@ -47,6 +57,11 @@ public class RecordTutorSessionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_tutor_session);
+
+//        TabHelper tabHelper = TabHelper.createInstance(context);
+//        tabHelper.setUp();
+        fragmentTabHost = (RecordTutorSessionActivity)findViewById(android.R.id.tabhost);
+        fragmentTabHost.setUp(this, getSupportFragmentManager(), R.id.realtabcontent);
 
         context = getApplicationContext();
 
