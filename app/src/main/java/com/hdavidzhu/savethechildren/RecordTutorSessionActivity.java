@@ -68,7 +68,9 @@ public class RecordTutorSessionActivity extends Activity {
     public void postNewForm(Context context, JSONObject jsonForm){
         // Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://192.168.56.101:3000/api/tests";
+        // String url = "http://192.168.56.101:3001/api/tests";
+        String url = "http://192.168.56.101:3001/api/student";
+
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -83,8 +85,6 @@ public class RecordTutorSessionActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("David still stinks");
-                Log.d("This is a tag", "David still stinks");
             }
         });
 
