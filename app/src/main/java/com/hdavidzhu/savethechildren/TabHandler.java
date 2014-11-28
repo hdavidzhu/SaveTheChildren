@@ -22,7 +22,8 @@ public class TabHandler extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        NewEntry = actionBar.newTab().setText("1");
+        NewEntry = actionBar.newTab().setText("Tab 1");
+        Roster = actionBar.newTab().setText("Tab 2");
 
         NewEntry.setTabListener(new MyTabListener(fragmentNewEntry));
         Roster.setTabListener(new MyTabListener(fragmentRoster));
