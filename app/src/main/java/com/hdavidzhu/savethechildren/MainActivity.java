@@ -28,6 +28,7 @@ import java.util.Map;
  * Created by casey on 11/20/14.
  */
 public class MainActivity extends Activity{
+    //calls record tutor session
 
     EditText nameEditText;
     EditText notesEditText;
@@ -110,9 +111,9 @@ public class MainActivity extends Activity{
                 }
             }
         };
-
+        Log.d("MainActivity", "Before OnClickListener");
         submitButton.setOnClickListener(submitButtonListener);
-
+        Log.d("MainActivity", "AfterOnClickListener");
         Query query = studentsDb.database.createAllDocumentsQuery();
         query.setLimit(10);
         query.setDescending(true);
