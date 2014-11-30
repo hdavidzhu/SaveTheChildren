@@ -1,8 +1,10 @@
 package com.hdavidzhu.savethechildren;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -43,12 +45,18 @@ public class MainActivity extends Activity{
 
     View.OnClickListener submitButtonListener;
 
+    RosterTest rosterFrag = new RosterTest();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.record_tutor_session);
         Log.d("Main Activity", "onCreate");
 
+        ActionBar actionbar = getActionBar();
+        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 //        TabHelper tabHelper = TabHelper.createInstance(context);
 //        tabHelper.setUp();
         //fragmentTabHost = (RecordTutorSessionActivity)findViewById(android.R.id.tabhost);
@@ -158,16 +166,16 @@ public class MainActivity extends Activity{
 //        }
 
         switch(id){
-            case R.id.action_settings:
-                return true;
             case R.id.new_entry:
 //                RecordTutorSessionActivity();
 //                MainActivity();
-                MainActivity entry = new MainActivity();
-                return true;
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                //return true;
             case R.id.roster:
-                Fragment roster = new RosterTest();
-                return true;
+                Intent intent2 = new Intent(this, RosterTest.class);
+                startActivity(intent2);
+                //return true;
             default:return super.onOptionsItemSelected(item);
 
         }
