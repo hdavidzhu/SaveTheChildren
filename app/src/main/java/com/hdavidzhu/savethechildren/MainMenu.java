@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 public class MainMenu extends ListActivity {
 
+
     //temporary main menu
 
     // Items on the menu.
@@ -17,10 +18,10 @@ public class MainMenu extends ListActivity {
     String classes[] = {"MainActivity", "Students" };
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("Main Menu", "Getting into Main Menu");
         Log.d("OnCreate", "This is before click");
 
 
