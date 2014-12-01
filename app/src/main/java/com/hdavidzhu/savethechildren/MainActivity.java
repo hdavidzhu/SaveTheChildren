@@ -3,10 +3,13 @@ package com.hdavidzhu.savethechildren;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,10 +30,15 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 /**
  * Created by casey on 11/20/14.
  */
+
+//fragment manager
+    //on tabs selected
+    //switch case
 public class MainActivity extends Activity{
     //calls record tutor session
 
@@ -45,18 +53,16 @@ public class MainActivity extends Activity{
 
     View.OnClickListener submitButtonListener;
 
-    RosterTest rosterFrag = new RosterTest();
+    RosterTest rosterFragment = new RosterTest();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.record_tutor_session);
         Log.d("Main Activity", "onCreate");
+        setupTabs();
 
-        ActionBar actionbar = getActionBar();
-        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 //        TabHelper tabHelper = TabHelper.createInstance(context);
 //        tabHelper.setUp();
         //fragmentTabHost = (RecordTutorSessionActivity)findViewById(android.R.id.tabhost);
@@ -143,6 +149,14 @@ public class MainActivity extends Activity{
 
     }
 
+    private void setupTabs(){
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(true);
+//        ActionBar.Tab rosterIthink = actionBar.newTab().setText("Merp One").setTabListener(new MyTabListener());
+//        actionBar.addTab(rosterIthink);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -157,6 +171,13 @@ public class MainActivity extends Activity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (rosterFragment.onOptionsItemSelected(item)) {
+            selectFragment(item.getItemId());
+            return true;
+        }
+
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -165,21 +186,50 @@ public class MainActivity extends Activity{
 //            return true;
 //        }
 
-        switch(id){
+        switch (id) {
             case R.id.new_entry:
 //                RecordTutorSessionActivity();
 //                MainActivity();
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                //return true;
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+                return true;
             case R.id.roster:
-                Intent intent2 = new Intent(this, RosterTest.class);
-                startActivity(intent2);
-                //return true;
-            default:return super.onOptionsItemSelected(item);
-
+                return true;
+//
+//                Intent intent2 = new Intent(this, RosterTest.class);
+//                //startActivity(intent2);
+//                //return true;
+//                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//                LayoutInflater layoutInflater1 = getLayoutInflater();
+//                int vCID = rosterFragment.getView().getId();
+//                RosterTest rosterFrag = (RosterTest) getFragmentManager().findFragmentById(R.id.roster);
+//
+//                rosterFrag.onCreateView(layoutInflater, vCID, );
+//                rosterFrag.onCreateView(layoutInflater1,vCID,);
+//
+//
+//            default:return super.onOptionsItemSelected(item);
+//
+//        }
         }
-        //return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void selectFragment(int item){
+        //add case statement
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.layout.rostertest, rosterFragment);
+        ft.commit();
+//        switch(item) {
+//            case R.id.new_entry:
+//                ft.add(R.layout.record_tutor_session, rosterFragment);
+//                ft.commit();
+//            case R.id.roster:
+//
+//                ft.add(R.layout.rostertest, rosterFragment);
+//                ft.commit();
+//
+//        }
     }
 
 }

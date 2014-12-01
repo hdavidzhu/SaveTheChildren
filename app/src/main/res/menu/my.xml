@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MyActivity" >
 
-
-
     <item android:id="@+id/new_entry"
         android:title="@string/new_student_entry"
         android:orderInCategory="100"
