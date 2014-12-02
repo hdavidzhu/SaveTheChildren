@@ -62,11 +62,9 @@ public class MainActivity extends Activity{
         setContentView(R.layout.record_tutor_session);
         Log.d("Main Activity", "onCreate");
         setupTabs();
-
-//        TabHelper tabHelper = TabHelper.createInstance(context);
-//        tabHelper.setUp();
-        //fragmentTabHost = (RecordTutorSessionActivity)findViewById(android.R.id.tabhost);
-        //fragmentTabHost.setUp(this, getSupportFragmentManager(), R.id.realtabcontent);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.fragment_container, rosterFragment);
+        ft.commit();
 
         final Context context = getApplicationContext();
         final RecordTutorSessionActivity newActivity = new RecordTutorSessionActivity();
@@ -153,8 +151,6 @@ public class MainActivity extends Activity{
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(true);
-//        ActionBar.Tab rosterIthink = actionBar.newTab().setText("Merp One").setTabListener(new MyTabListener());
-//        actionBar.addTab(rosterIthink);
     }
 
     @Override
@@ -195,22 +191,7 @@ public class MainActivity extends Activity{
                 return true;
             case R.id.roster:
                 return true;
-//
-//                Intent intent2 = new Intent(this, RosterTest.class);
-//                //startActivity(intent2);
-//                //return true;
-//                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-//                LayoutInflater layoutInflater1 = getLayoutInflater();
-//                int vCID = rosterFragment.getView().getId();
-//                RosterTest rosterFrag = (RosterTest) getFragmentManager().findFragmentById(R.id.roster);
-//
-//                rosterFrag.onCreateView(layoutInflater, vCID, );
-//                rosterFrag.onCreateView(layoutInflater1,vCID,);
-//
-//
-//            default:return super.onOptionsItemSelected(item);
-//
-//        }
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -218,18 +199,9 @@ public class MainActivity extends Activity{
     private void selectFragment(int item){
         //add case statement
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.layout.rostertest, rosterFragment);
+        ft.replace(R.id.fragment_container, rosterFragment);
         ft.commit();
-//        switch(item) {
-//            case R.id.new_entry:
-//                ft.add(R.layout.record_tutor_session, rosterFragment);
-//                ft.commit();
-//            case R.id.roster:
-//
-//                ft.add(R.layout.rostertest, rosterFragment);
-//                ft.commit();
-//
-//        }
+
     }
 
 }
