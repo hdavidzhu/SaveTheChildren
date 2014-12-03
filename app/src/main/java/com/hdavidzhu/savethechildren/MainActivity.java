@@ -4,41 +4,17 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TimePicker;
-
-import com.couchbase.lite.CouchbaseLiteException;
-import com.couchbase.lite.Document;
-import com.couchbase.lite.Query;
-import com.couchbase.lite.QueryEnumerator;
-import com.couchbase.lite.QueryRow;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.zip.Inflater;
 
 /**
  * Created by casey on 11/20/14.
  */
 
-//fragment manager
-    //on tabs selected
-    //switch case
+//DON'T FORGET TO ADD A BACK TO STACK
 public class MainActivity extends Activity{
     //calls record tutor session
 
@@ -53,7 +29,8 @@ public class MainActivity extends Activity{
 //
 //    View.OnClickListener submitButtonListener;
 //
-//    RosterTest rosterFragment = new RosterTest();
+    Roster rosterFragment = new Roster();
+//    NewTutor tutorFragment = new NewTutor();
 
     //intiializing tabs
 
@@ -61,11 +38,11 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.record_tutor_session);
+        setContentView(R.layout.main_activity);
         Log.d("Main Activity", "onCreate");
         setupTabs();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_container, rosterFragment);
+        ft.add(R.id.main_activity_container, new NewTutor());
         ft.commit();
 
 
@@ -159,7 +136,7 @@ public class MainActivity extends Activity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.record_tutor_session, menu);
+        //getMenuInflater().inflate(R.new_tutor, menu);
         //getMenuInflater().inflate(R.menu.my, menu);
         Log.d("Main Activity", "onCreateOptionsMenu");
         MenuInflater inflater = getMenuInflater();
@@ -170,11 +147,10 @@ public class MainActivity extends Activity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (rosterFragment.onOptionsItemSelected(item)) {
-            selectFragment(item.getItemId());
-            return true;
-        }
+//
+//        if (rosterFragment.onOptionsItemSelected(item)) {
+//            return true;
+//        }
 
 
         // Handle action bar item clicks here. The action bar will
@@ -191,18 +167,20 @@ public class MainActivity extends Activity{
 //                MainActivity();
 //                Intent intent = new Intent(this, MainActivity.class);
 //                startActivity(intent);
+                selectFragment(new NewTutor());
                 return true;
             case R.id.roster:
+                selectFragment(new Roster());
                 return true;
 
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void selectFragment(int item){
+    private void selectFragment(Fragment fragment){
         //add case statement
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, rosterFragment);
+        ft.replace(R.id.main_activity_container, fragment);
         ft.commit();
 
     }

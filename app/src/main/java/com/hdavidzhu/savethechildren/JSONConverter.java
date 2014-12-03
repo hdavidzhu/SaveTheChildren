@@ -37,7 +37,7 @@ import com.hdavidzhu.savethechildren.TabHelper.TabHelper;
 
 import org.json.JSONObject;
 
-public class RecordTutorSessionActivity extends Fragment {
+public class JSONConverter extends Fragment {
     //private RecordTutorSessionActivity fragmentTabHost;
 //
 //

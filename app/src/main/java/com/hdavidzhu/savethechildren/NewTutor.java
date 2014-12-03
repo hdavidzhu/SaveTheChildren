@@ -1,5 +1,6 @@
 package com.hdavidzhu.savethechildren;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import java.util.Map;
 /**
  * Created by casey on 12/1/14.
  */
-public class NewEntry extends Fragment {
+public class NewTutor extends Fragment {
     Context context;
     EditText nameEditText;
     EditText notesEditText;
@@ -41,40 +42,49 @@ public class NewEntry extends Fragment {
 
     View.OnClickListener submitButtonListener;
 
-    RosterTest rosterFragment = new RosterTest();
+    Roster rosterFragment = new Roster();
 
 
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context = activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        return super.onCreateView(inflater, container, savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.fragment_fragmented_prog, container, false);
-        ListView myListView = (ListView) rootView.findViewById(R.id.my_list_view);
-
-        nameEditText = (EditText) container.findViewById(R.id.et_name);
-        notesEditText = (EditText) container.findViewById(R.id.et_notes);
-        timePicker = (TimePicker) container.findViewById(R.id.timePicker);
-        datePicker = (DatePicker) container.findViewById(R.id.datePicker);
-        submitButton = (Button) container.findViewById(R.id.bt_submit);
+        View rootView = inflater.inflate(R.layout.new_tutor, container, false);
+        ListView myListView = (ListView) rootView.findViewById(R.id.list_view);
+        final JSONConverter newActivity = new JSONConverter();
+        nameEditText = (EditText) rootView.findViewById(R.id.et_name);
+        notesEditText = (EditText) rootView.findViewById(R.id.et_notes);
+        timePicker = (TimePicker) rootView.findViewById(R.id.timePicker);
+        datePicker = (DatePicker) rootView.findViewById(R.id.datePicker);
+        submitButton = (Button) rootView.findViewById(R.id.bt_submit);
 
         try {
             studentsDb = new StudentsDb(context);
             studentsDb.setUpDb();
         } catch (CouchbaseLiteException c) {
             Log.d("Couch", "Did not initiate database.");
-            return;
-        } catch (IOException e ) {
+            return rootView;
+        } catch (IOException e) {
             Log.d("Couch", "Did not initiate database.");
-            return;
+            return rootView;
         }
 
 
-        submitButtonListener = new View.OnClickListener() {
+//        submitButtonListener =
+
+
+        Log.d("MainActivity", "Before OnClickListener");
+        rootView.findViewById(R.id.bt_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Form form = new Form(
+
                         nameEditText.getText().toString(),
                         datePicker.getYear(),
                         datePicker.getMonth(),
@@ -93,7 +103,7 @@ public class NewEntry extends Fragment {
                     @SuppressWarnings("unchecked")
                     Map<String, Object> mapForm = form.toHashMapConverter();
                     formDocument.putProperties(mapForm);
-                    Log.d (TAG, "Document written to database named " + studentsDb.dbName
+                    Log.d(TAG, "Document written to database named " + studentsDb.dbName
                             + " with ID = " + formDocument.getId());
 
                     // save the ID of the new document
@@ -110,11 +120,7 @@ public class NewEntry extends Fragment {
                     Log.e(TAG, "Cannot write document to database", e);
                 }
             }
-        };
-
-
-        Log.d("MainActivity", "Before OnClickListener");
-        submitButton.setOnClickListener(submitButtonListener);
+        });
         Log.d("MainActivity", "AfterOnClickListener");
         Query query = studentsDb.database.createAllDocumentsQuery();
         query.setLimit(10);
@@ -131,6 +137,9 @@ public class NewEntry extends Fragment {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
-    return rootView;
+        return rootView;
     }
+
+
+
 }
