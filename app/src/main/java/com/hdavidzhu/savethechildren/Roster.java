@@ -1,6 +1,7 @@
 package com.hdavidzhu.savethechildren;
 
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +14,7 @@ import android.widget.ListView;
 /**
  * Created by casey on 11/28/14.
  */
-public class Roster extends Fragment{
+public class Roster extends ListFragment implements View.OnClickListener{
     Context context;
 
     //this is the teacher roster?
@@ -41,7 +42,16 @@ public class Roster extends Fragment{
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(view.getContext(), R.layout.roster_list_item, items);
         listview.setAdapter(adapter);
+
+
         return view;
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        //call another fragment?
+
+    }
 }

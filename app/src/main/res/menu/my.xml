@@ -6,11 +6,16 @@
     <item android:id="@+id/new_entry"
         android:title="@string/new_student_entry"
         android:orderInCategory="100"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom" />
 
     <item android:id="@+id/roster"
         android:title="@string/roster"
         android:orderInCategory="100"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom" />
+
+    <item android:id="@+id/tutor"
+        android:title="Tutor"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" />
 
 </menu>

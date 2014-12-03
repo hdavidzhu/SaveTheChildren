@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.hdavidzhu.savethechildren.TabHelper.Tutor;
+
 /**
  * Created by casey on 11/20/14.
  */
@@ -171,6 +173,9 @@ public class MainActivity extends Activity{
                 return true;
             case R.id.roster:
                 selectFragment(new Roster());
+                return true;
+            case R.id.tutor:
+                selectFragment(new Tutor());
                 return true;
 
         }
