@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var ClassModule = require('./models/class_module');
 var Grade = require('./models/grade');
 var Subject = require('./models/subject');
+var Teacher = require('./models/teacher');
 
 // Mongoose instance and connection to our mongolab database
 var db = require('./db');
@@ -89,10 +90,36 @@ router.route('/class_module/:class_module')
 		ClassModule
 			.where("name", class_module)
 			.findOne()
-			.exe(function (err, class_module_info) {
+			.exec(function (err, class_module_info) {
 				res.send(class_module_info);
 			})
 	});
+
+router.route('/teachers')
+	.get(function (req, res) {
+		Teacher
+			.find()
+			.exec(function (err, teachers) {
+				if (err) return handleError(err);
+				var teachers_list = [];
+				for (i = 0; i < teachers.length; i++) { 
+					teachers_list.push(teachers[i].name);
+				}
+				res.send(teachers_list);
+			})
+	});
+
+router.route('/teacher/:teacher')
+	.get(function (req, res) {
+			var teacher = req.params.teacher;
+			Teacher
+			  .where("name",teacher)
+			  .findOne()
+			  .exec(function (err,teacher_info) {
+			  	if (err) return handleError(err);
+			  	
+			  })
+		});
 
 // Register Routes
 // All of our routes will be prefixed with /api
