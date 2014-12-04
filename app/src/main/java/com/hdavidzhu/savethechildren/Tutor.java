@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.hdavidzhu.savethechildren.R;
 
 import java.util.ArrayList;
@@ -50,6 +52,16 @@ public class Tutor extends Fragment{
         adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, arr);
         listview.setAdapter(adapter);
 
+        Button addButton = (Button) view.findViewById(R.id.add_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.main_activity_container, new Subject());
+                ft.commit();
+            }
+        });
+
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -59,6 +71,12 @@ public class Tutor extends Fragment{
         });
 
         return view;
+    }
+
+    public void getSubjects() {
+        final RequestQueue queue = Volley.newRequestQueue(getActivity());
+        String url = "http://192.168.56.101:3000/subjects";
+
     }
 
     // method to remove list item
