@@ -43,8 +43,8 @@ public class Subject extends Fragment{
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                JSONObject subjects = getSubjects();
-                Log.d("Subjects", subjects.toString());
+                // JSONObject subjects = getSubjects();
+                // Log.d("Subjects", subjects.toString());
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container, new Grade());
                 ft.commit();
