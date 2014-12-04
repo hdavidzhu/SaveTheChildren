@@ -1,21 +1,19 @@
 package com.hdavidzhu.savethechildren;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TimePicker;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Document;
 import com.couchbase.lite.Query;
@@ -28,10 +26,11 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-public class RecordTutorSessionActivity extends Activity {
-
+/**
+ * Created by casey on 12/1/14.
+ */
+public class NewTutor extends Fragment {
     Context context;
-
     EditText nameEditText;
     EditText notesEditText;
     TimePicker timePicker;
@@ -43,34 +42,49 @@ public class RecordTutorSessionActivity extends Activity {
 
     View.OnClickListener submitButtonListener;
 
+    Roster rosterFragment = new Roster();
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.record_tutor_session);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context = activity;
+    }
 
-        context = getApplicationContext();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        return super.onCreateView(inflater, container, savedInstanceState);
 
-        nameEditText = (EditText) findViewById(R.id.et_name);
-        notesEditText = (EditText) findViewById(R.id.et_notes);
-        timePicker = (TimePicker) findViewById(R.id.timePicker);
-        datePicker = (DatePicker) findViewById(R.id.datePicker);
-        submitButton = (Button) findViewById(R.id.bt_submit);
+        View rootView = inflater.inflate(R.layout.new_tutor, container, false);
+        ListView myListView = (ListView) rootView.findViewById(R.id.list_view);
+        final JSONConverter newActivity = new JSONConverter();
+        nameEditText = (EditText) rootView.findViewById(R.id.et_name);
+        notesEditText = (EditText) rootView.findViewById(R.id.et_notes);
+        timePicker = (TimePicker) rootView.findViewById(R.id.timePicker);
+        datePicker = (DatePicker) rootView.findViewById(R.id.datePicker);
+        submitButton = (Button) rootView.findViewById(R.id.bt_submit);
 
         try {
             studentsDb = new StudentsDb(context);
             studentsDb.setUpDb();
         } catch (CouchbaseLiteException c) {
             Log.d("Couch", "Did not initiate database.");
-            return;
-        } catch (IOException e ) {
+            return rootView;
+        } catch (IOException e) {
             Log.d("Couch", "Did not initiate database.");
-            return;
+            return rootView;
         }
 
-        submitButtonListener = new View.OnClickListener() {
+
+//        submitButtonListener =
+
+
+        Log.d("MainActivity", "Before OnClickListener");
+        rootView.findViewById(R.id.bt_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Form form = new Form(
+
                         nameEditText.getText().toString(),
                         datePicker.getYear(),
                         datePicker.getMonth(),
@@ -80,7 +94,8 @@ public class RecordTutorSessionActivity extends Activity {
                         notesEditText.getText().toString());
 
                 JSONObject jsonForm = form.javaToJSONObjectConverter();
-                postNewForm(context, jsonForm);
+                newActivity.postNewForm(context, jsonForm);
+                //postNewForm(context, jsonForm);
 
                 Document formDocument = studentsDb.database.createDocument();
 
@@ -88,7 +103,7 @@ public class RecordTutorSessionActivity extends Activity {
                     @SuppressWarnings("unchecked")
                     Map<String, Object> mapForm = form.toHashMapConverter();
                     formDocument.putProperties(mapForm);
-                    Log.d (TAG, "Document written to database named " + studentsDb.dbName
+                    Log.d(TAG, "Document written to database named " + studentsDb.dbName
                             + " with ID = " + formDocument.getId());
 
                     // save the ID of the new document
@@ -105,10 +120,8 @@ public class RecordTutorSessionActivity extends Activity {
                     Log.e(TAG, "Cannot write document to database", e);
                 }
             }
-        };
-
-        submitButton.setOnClickListener(submitButtonListener);
-
+        });
+        Log.d("MainActivity", "AfterOnClickListener");
         Query query = studentsDb.database.createAllDocumentsQuery();
         query.setLimit(10);
         query.setDescending(true);
@@ -124,37 +137,9 @@ public class RecordTutorSessionActivity extends Activity {
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
-
+        return rootView;
     }
 
-    public void postNewForm(Context context, JSONObject jsonForm){
-        // Instantiate the RequestQueue.
-        final RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://192.168.56.101:3000/api/tests";
 
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                jsonForm,
-                new Response.Listener<JSONObject>() {
 
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("onResponse", "Success");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("onErrorResponse", "Posting failed.");
-            }
-        });
-
-        // Log.d("Request in add post", "printing request");
-        // System.out.println(jsonRequest);
-
-        queue.add(jsonRequest);
-
-        // Log.d("Printing the queue", "queue");
-        // System.out.println(jsonRequest);
-    }
 }
