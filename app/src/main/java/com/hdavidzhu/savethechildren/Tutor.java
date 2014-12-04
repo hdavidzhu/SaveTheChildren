@@ -73,12 +73,6 @@ public class Tutor extends Fragment{
         return view;
     }
 
-    public void getSubjects() {
-        final RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "http://192.168.56.101:3000/subjects";
-
-    }
-
     // method to remove list item
     protected void removeItemFromList(int position) {
         final int deletePosition = position;
