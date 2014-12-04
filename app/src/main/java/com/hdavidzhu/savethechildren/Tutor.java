@@ -65,7 +65,7 @@ public class Tutor extends Fragment{
     protected void removeItemFromList(int position) {
         final int deletePosition = position;
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 
         alert.setTitle("Delete");
         alert.setMessage("Do you want delete this item?");
@@ -84,7 +84,6 @@ public class Tutor extends Fragment{
         alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
