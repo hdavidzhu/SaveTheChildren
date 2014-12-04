@@ -1,4 +1,4 @@
-package com.hdavidzhu.savethechildren.TabHelper;
+package com.hdavidzhu.savethechildren;
 
 import android.app.Fragment;
 import android.app.ListFragment;
@@ -16,7 +16,7 @@ import com.hdavidzhu.savethechildren.R;
 /**
  * Created by casey on 12/2/14.
  */
-public class Tutor extends Fragment implements View.OnClickListener{
+public class Tutor extends ListFragment implements View.OnClickListener {
     Context context;
 
     //this fragment will display the name and then the list of things they need training in
@@ -43,6 +43,9 @@ public class Tutor extends Fragment implements View.OnClickListener{
         return view;
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
 
-
+    }
 }
