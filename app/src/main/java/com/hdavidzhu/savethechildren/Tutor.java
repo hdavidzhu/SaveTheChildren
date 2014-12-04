@@ -33,7 +33,7 @@ public class Tutor extends Fragment{
 
         String[] items = new String[] {"Fake Module 1 Here", "Fake Module 2 Here", "Fake Module 3 Here"};
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(view.getContext(), R.layout.roster_list_item, items);
+                new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, items);
         listview.setAdapter(adapter);
 
         Button addButton = (Button) view.findViewById(R.id.add_button);
