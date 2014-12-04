@@ -16,8 +16,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.couchbase.lite.CouchbaseLiteException;
+import com.couchbase.lite.Document;
+import com.couchbase.lite.Query;
+import com.couchbase.lite.QueryEnumerator;
+import com.couchbase.lite.QueryRow;
 
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 public class RecordTutorSessionActivity extends Activity {
 
@@ -28,6 +37,9 @@ public class RecordTutorSessionActivity extends Activity {
     TimePicker timePicker;
     DatePicker datePicker;
     Button submitButton;
+
+    StudentsDb studentsDb;
+    private static final String TAG = "Couch";
 
     View.OnClickListener submitButtonListener;
 
@@ -44,6 +56,17 @@ public class RecordTutorSessionActivity extends Activity {
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         submitButton = (Button) findViewById(R.id.bt_submit);
 
+        try {
+            studentsDb = new StudentsDb(context);
+            studentsDb.setUpDb();
+        } catch (CouchbaseLiteException c) {
+            Log.d("Couch", "Did not initiate database.");
+            return;
+        } catch (IOException e ) {
+            Log.d("Couch", "Did not initiate database.");
+            return;
+        }
+
         submitButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,19 +81,56 @@ public class RecordTutorSessionActivity extends Activity {
 
                 JSONObject jsonForm = form.javaToJSONObjectConverter();
                 postNewForm(context, jsonForm);
+
+                Document formDocument = studentsDb.database.createDocument();
+
+                try {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> mapForm = form.toHashMapConverter();
+                    formDocument.putProperties(mapForm);
+                    Log.d (TAG, "Document written to database named " + studentsDb.dbName
+                            + " with ID = " + formDocument.getId());
+
+                    // save the ID of the new document
+                    String docID = formDocument.getId();
+                    // retrieve the document from the database
+                    Document retrievedDocument = studentsDb.database.getDocument(docID);
+                    // display the retrieved document
+                    Log.d(TAG, "retrievedDocument=" + String.valueOf(retrievedDocument.getProperties()));
+
+                    // Display number of files in document.
+                    Log.d(TAG, String.valueOf(studentsDb.database.getDocumentCount()));
+
+                } catch (CouchbaseLiteException e) {
+                    Log.e(TAG, "Cannot write document to database", e);
+                }
             }
         };
 
         submitButton.setOnClickListener(submitButtonListener);
+
+        Query query = studentsDb.database.createAllDocumentsQuery();
+        query.setLimit(10);
+        query.setDescending(true);
+
+        try {
+            QueryEnumerator rowEnum = query.run();
+            for (Iterator<QueryRow> it = rowEnum;
+                 it.hasNext();) {
+                QueryRow row = it.next();
+                Log.d("Document ID:", row.getDocumentId());
+
+            }
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void postNewForm(Context context, JSONObject jsonForm){
         // Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(context);
-        // String url = "http://192.168.56.101:3001/api/tests";
-        String url = "http://192.168.56.101:3001/api/student";
-
+        String url = "http://192.168.56.101:3000/api/tests";
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -85,13 +145,16 @@ public class RecordTutorSessionActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Posting failed.");
             }
         });
 
-        Log.d("Request in add post", "printing request");
-        System.out.println(jsonRequest);
+        // Log.d("Request in add post", "printing request");
+        // System.out.println(jsonRequest);
+
         queue.add(jsonRequest);
-        Log.d("Printing the queue", "queue");
-        System.out.println(jsonRequest);
+
+        // Log.d("Printing the queue", "queue");
+        // System.out.println(jsonRequest);
     }
 }
