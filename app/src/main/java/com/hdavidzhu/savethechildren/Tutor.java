@@ -49,19 +49,12 @@ public class Tutor extends Fragment{
         arr = new ArrayList<String>(Arrays.asList(items));
         adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, arr);
         listview.setAdapter(adapter);
-        String[] items = new String[] {"Fake Module 1 Here", "Fake Module 2 Here", "Fake Module 3 Here"};
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, items);
-        listview.setAdapter(adapter);
+
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 removeItemFromList(i);
                 return false;
-            public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_activity_container, new Subject());
-                ft.commit();
             }
         });
 
