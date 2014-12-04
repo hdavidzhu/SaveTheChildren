@@ -29,6 +29,8 @@ import java.util.Map;
 /**
  * Created by casey on 12/1/14.
  */
+
+//This class creates the the new tutor form for the application
 public class NewTutor extends Fragment {
     Context context;
     EditText nameEditText;
