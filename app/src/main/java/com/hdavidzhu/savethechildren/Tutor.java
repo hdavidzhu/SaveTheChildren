@@ -1,6 +1,7 @@
 package com.hdavidzhu.savethechildren;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.hdavidzhu.savethechildren.R;
 /**
  * Created by casey on 12/2/14.
  */
-public class Tutor extends ListFragment implements View.OnClickListener {
+public class Tutor extends Fragment{
     Context context;
 
     //this fragment will display the name and then the list of things they need training in
@@ -24,18 +25,24 @@ public class Tutor extends ListFragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         View view = inflater.inflate(R.layout.tutor, container, false);
         //now you must initialize your list view
         ListView listview = (ListView)view.findViewById(R.id.training_list);
 
-        //need an adapter here
+        String[] items = new String[] {"Fake Module 1 Here", "Fake Module 2 Here", "Fake Module 3 Here"};
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(view.getContext(), R.layout.roster_list_item, items);
+        listview.setAdapter(adapter);
 
         Button addButton = (Button) view.findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //I think database things happen here.
-
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.main_activity_container, new Subject());
+                ft.commit();
             }
         });
 
@@ -43,9 +50,4 @@ public class Tutor extends ListFragment implements View.OnClickListener {
         return view;
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-    }
 }

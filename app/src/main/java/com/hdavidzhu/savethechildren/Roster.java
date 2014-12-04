@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by casey on 11/28/14.
  */
-public class Roster extends ListFragment implements View.OnClickListener{
+public class Roster extends Fragment{
     Context context;
 
     //this is the teacher roster?
@@ -49,11 +49,11 @@ public class Roster extends ListFragment implements View.OnClickListener{
         return view;
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        //call another fragment?
-
-    }
+//    @Override
+//    public void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);
+//
+//        //call another fragment?
+//
+//    }
 }
