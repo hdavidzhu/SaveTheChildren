@@ -14,7 +14,7 @@ var db = require('./db');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 3001; // set our port
+var port = process.env.PORT || 3000; // set our port
 
 // Routing
 var router = express.Router(); // get an instance of the express Router
@@ -39,10 +39,9 @@ router.get('/', function(req, res) {
 
 // API Routes
 // This route will capture and save all teachers
-router.route('/teacher')
-	.post(function (req, res) {
-		// Do shizniz here
-		// 
+router.route('/teachers')
+	.get(function (req, res) {
+		
 	});
 	
 // This route will capture and save all students

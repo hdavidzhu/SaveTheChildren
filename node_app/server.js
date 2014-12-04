@@ -4,7 +4,9 @@ var app        = express();
 var bodyParser = require('body-parser');
 
 // Models, where we pull in the models for mongoDB data
-var Test = require('./models/test');
+var ClassModule = require('./models/class_module');
+var Grade = require('./models/grade');
+var Subject = require('./models/subject');
 
 // Mongoose instance and connection to our mongolab database
 var db = require('./db');
@@ -14,42 +16,100 @@ var db = require('./db');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 3001; // set our port
+// Set our port
+var port = process.env.PORT || 3002; 
 
 // Routing
 var router = express.Router(); // get an instance of the express Router
 
-// Setting schemas
-var StudentModel = require ('./models/student');
-
-// Middleware that happens each time we make a request
-router.use(function(req, res, next) {
-	// console.log('someone made a request, was it you?');
-	// console.log('Request ', req.body);
-	// console.log(typeof req.body);
-	// console.log(req.body.name);
-	// console.log('Resource ', res.body);
-	next(); // move to the next associated middleware
-})
-
-// Test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+// Test route to make sure everything is working
 router.get('/', function(req, res) {
 	res.json({ message: 'Hooray! Welcome to our API!' });	
-})
+});
 
 // API Routes
+
+router.route('/subjects')
+	.get(function (req, res) {
+		Subject
+			.find()
+			.exec(function (err, subjects) {
+				if (err) return handleError(err);
+				var subjects_list = [];
+				for (i = 0; i < subjects.length; i++) { 
+					subjects_list.push(subjects[i].name);
+				}
+				res.send(subjects_list);
+			})
+	});
+
+router.route('/subject/:subject')
+	.get(function (req, res) {
+		var subject = req.params.subject;
+		Subject
+		  .where("name",subject)
+		  .findOne()
+		  .exec(function (err,subject_info) {
+		  	if (err) return handleError(err);
+		  	Grade
+		  		.where("subject_id", subject_info._id)
+		  		.select("_id name")	
+		  		.find()
+		  		.exec(function (err,grades) {
+		  			res.send([subject_info, grades]);
+		  		})
+		  })
+	});
+
+router.route('/subject/:subject/:grade')
+	.get(function (req, res) {
+		var subject = req.params.subject;
+		var grade = req.params.grade;
+		Grade
+			.where("subject_id").equals(subject)
+			.where("name").equals(grade)
+			.findOne()
+			.exec(function (err, grade_info) {
+		  	if (err) return handleError(err);
+		  	ClassModule
+		  		.where("grade_id", grade_info._id)
+		  		.select("_id name")
+		  		.find()
+		  		.exec(function (err,class_modules) {
+		  			res.send([grade_info, class_modules]);
+		  		})
+			})
+	});
+
+router.route('/class_module/:class_module')
+	.get(function (req, res) {
+		var class_module = req.params.class_module;
+		ClassModule
+			.where("name", class_module)
+			.findOne()
+			.exe(function (err, class_module_info) {
+				res.send(class_module_info);
+			})
+	});
+
+// Register Routes
+// All of our routes will be prefixed with /api
+app.use('/', router);
+
+// Server
+app.listen(port);
+console.log('Server listening on', port);
+
+/**
 // This route will capture and save all teachers
-router.route('/teacher')
-	.post(function (req, res) {
-		// Do shizniz here
-		// 
+router.route('/teachers')
+	.get(function (req, res) {
 	});
 	
 // This route will capture and save all students
-router.route('/student')
+router.route('/student/:student')
 	.post(function (req, res) {
 		var studentRecord = new StudentModel(req.body);
-
 		studentRecord.save(function(err) {
 			if (err) {
 				console.log(err);
@@ -60,47 +120,50 @@ router.route('/student')
 			}
 		})
 	})
+	.put(function (req, res) {
+		var conditions = { name: req.params.student }
+		var update = { $inc: { visits: 1 }}
+		var options = { multi: true };
 
+		StudentModel.update(conditions, update, options, callback);
+
+		function callback (err, numAffected) {
+		  // numAffected is the number of updated documents
+		  console.log(numAffected);
+		})
+	})
 	.get (function (req, res) {
 		db.collection.find();
+	});
 
+router.route('/students/all')
+	.get(function (req, res) {
+		// var students= StudentModel.find.sort('name => 1');
+		// StudentModel.aggregate({$project:{name: 1}}).exec(function (err, students) {
+		// 	if (err) return handleError(err);
+		// 	res.send(students);
+		// })
+		StudentModel.find().exec(function (err, students) {
+			if (err) return handleError(err);
+			res.send(students);
+		})
+	});
+
+router.route('/students/some/:lower/:upper')
+	.get(function (req, res) {
+		StudentModel.find().sort(name => 1).exec
 	});
 
 // This route will fetch student information
 router.route('/student/:student_name')
 	.get(function (req, res) {
-		// db.collection.find();
 		
-		var student_name = req.params.student_name;
-		
-		// console.log(typeof student_name);
-
-		// var student_query = StudentModel.where({ name: student_name });
-		// student_query.findOne(function (err, student) {
-		// 	if (err) return handleError(err);
-		// 	if (student) {
-		// 		console.log(student);
-		// 	}
-		// });
-
+		var student_name = req.params.student_name;		
 		StudentModel.findOne({'name': student_name}, 'name minute', function (err, student) {
 			if (err) return handleError(err);
-			console.log("This worked... for now.");
-			console.log('%s, %s minute.', student.name, student.minute);
+			res.send(student);
 		})
-
-router.route('/student/all')
-	.get(function (req, res) {
-		StudentModel.find.sort('name => 1');
-	})
-
-// router.route('/student/all/:lower/:upper')
-// 	.get(function (req, res) {
-// 		StudentModel.find.sort(name => 1)
-// 	})
-
-});
-
+	});
 
 // This route will capture and save all notes about students
 router.route('/student/note')
@@ -136,7 +199,6 @@ router.route('/tests/:test_id')
 			res.json(test);
 		});
 	})
-
 	// Update the information within a test
 	.put(function(req, res) {
 		Test.findById(req.params.test_id, function(err, test) {
@@ -151,7 +213,6 @@ router.route('/tests/:test_id')
 
 		});
 	})
-
 	.delete(function(req, res) {
 		Test.remove({ _id: req.params.test_id }, 
 
@@ -160,11 +221,4 @@ router.route('/tests/:test_id')
 			res.json({ message: 'Successfully deleted' });
 		});
 	});
-
-// Register Routes
-// All of our routes will be prefixed with /api
-app.use('/api', router);
-
-// Server
-app.listen(port);
-console.log('Server listening on', port);
+**/
