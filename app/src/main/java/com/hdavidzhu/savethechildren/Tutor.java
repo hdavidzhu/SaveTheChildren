@@ -89,7 +89,7 @@ public class Tutor extends Fragment{
                 // main code on after clicking yes
                 arr.remove(deletePosition);
                 adapter.notifyDataSetChanged();
-                adapter.notifyDataSetInvalidated();
+                adapter.notifyDataSetInvalidated();// TODO remove?
 
             }
         });
