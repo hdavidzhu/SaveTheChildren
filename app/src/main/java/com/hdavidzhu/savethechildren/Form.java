@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class Form {
 
+    //helper class. Converts Java object to JSON object
+
     String name;
     String notes;
     int year;
