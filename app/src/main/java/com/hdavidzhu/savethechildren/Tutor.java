@@ -7,7 +7,9 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +49,9 @@ public class Tutor extends Fragment{
 //        TextView textview = (TextView) view.findViewById(R.id.text_view);
 //        textview.setText("Yeah what up");
         View view = inflater.inflate(R.layout.tutor, container, false);
+
+        handleBackPress();
+
         //now you must initialize your list view
         ListView listview = (ListView)view.findViewById(R.id.training_list);
         arr = MainActivity.tutorItems;
@@ -104,5 +109,22 @@ public class Tutor extends Fragment{
 
         alert.show();
 
+    }
+
+    private void handleBackPress() {
+        if (getView() != null) {
+            getView().setFocusableInTouchMode(true);
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        Log.i("DebugDebug", "Here");
+                        getFragmentManager().beginTransaction().replace(R.id.main_activity_container, new NewTutor()).commit();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
     }
 }
