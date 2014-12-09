@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by casey on 11/20/14.
  */
@@ -30,6 +33,14 @@ public class MainActivity extends Activity{
 //    View.OnClickListener submitButtonListener;
 //
     Roster rosterFragment = new Roster();
+
+
+    public static List <String> tutorItems = new ArrayList<String>(){{
+        add("Fake Module 1");
+        add("Fake Module 2");
+        add("Fake Module 3");
+        add("Fake Module 4");
+    }};
 //    NewTutor tutorFragment = new NewTutor();
 
     //intiializing tabs

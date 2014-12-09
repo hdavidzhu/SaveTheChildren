@@ -38,7 +38,8 @@ public class Tutor extends Fragment{
     ListView listview;
     ArrayAdapter<String> adapter;
     List<String> arr;
-    String[] items = {"Fake Module 1", "Fake Module 2", "Fake Module 3", "Fake Module 4"};
+
+    //String[] items = {"Fake Module 1", "Fake Module 2", "Fake Module 3", "Fake Module 4"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class Tutor extends Fragment{
         View view = inflater.inflate(R.layout.tutor, container, false);
         //now you must initialize your list view
         ListView listview = (ListView)view.findViewById(R.id.training_list);
-        arr = new ArrayList<String>(Arrays.asList(items));
+        arr = MainActivity.tutorItems;
         adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, arr);
         listview.setAdapter(adapter);
 
