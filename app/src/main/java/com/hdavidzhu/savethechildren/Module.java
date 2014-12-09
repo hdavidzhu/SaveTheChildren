@@ -14,7 +14,7 @@ import android.widget.ListView;
 /**
  * Created by casey on 12/2/14.
  */
-public class Modules extends Fragment {
+public class Module extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -27,7 +27,7 @@ public class Grade extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_activity_container, new Modules());
+                ft.replace(R.id.main_activity_container, new Module());
                 ft.commit();
             }
         });
