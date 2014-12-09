@@ -59,6 +59,7 @@ public class Tutor extends Fragment{
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container, new Subject());
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });

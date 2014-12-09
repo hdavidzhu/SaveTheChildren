@@ -30,6 +30,7 @@ public class Module extends Fragment {
                  MainActivity.tutorItems.add(items[i]);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container,new Tutor());
+                ft.addToBackStack(null);
                 ft.commit();
 
             }

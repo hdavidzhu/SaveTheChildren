@@ -19,7 +19,7 @@ public class Grade extends Fragment {
 
         View view = inflater.inflate(R.layout.training_grade, container, false);
         ListView listview =(ListView)view.findViewById(R.id.grades_listview);
-        String[] items = new String[] {"Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5"};
+        final String[] items = new String[] {"Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5"};
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(view.getContext(), R.layout.grade_list_item, items);
         listview.setAdapter(adapter);
@@ -28,6 +28,7 @@ public class Grade extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container, new Module());
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });

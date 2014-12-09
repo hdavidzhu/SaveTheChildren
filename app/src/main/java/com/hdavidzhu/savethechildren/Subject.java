@@ -48,6 +48,7 @@ public class Subject extends Fragment{
 
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container, new Grade());
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
