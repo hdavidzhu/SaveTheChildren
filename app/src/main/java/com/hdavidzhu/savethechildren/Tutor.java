@@ -17,7 +17,9 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -49,12 +51,15 @@ public class Tutor extends Fragment{
 //        TextView textview = (TextView) view.findViewById(R.id.text_view);
 //        textview.setText("Yeah what up");
         View view = inflater.inflate(R.layout.tutor, container, false);
-
         handleBackPress();
+        Bundle bundle = getArguments();
+        String name = bundle.getString("name");
 
         //now you must initialize your list view
         ListView listview = (ListView)view.findViewById(R.id.training_list);
         arr = MainActivity.tutorItems;
+        final TextView tutorName = (TextView) view.findViewById(R.id.tutor_name);
+        tutorName.setText(name);
         adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, arr);
         listview.setAdapter(adapter);
 
@@ -64,7 +69,9 @@ public class Tutor extends Fragment{
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container, new Subject());
+
                 ft.addToBackStack(null);
+
                 ft.commit();
             }
         });

@@ -41,6 +41,12 @@ public class MainActivity extends Activity{
         add("Fake Module 3");
         add("Fake Module 4");
     }};
+
+    public static List <String> names = new ArrayList<String>() {{
+        add("Paigers");
+        add("David");
+        add("Casey");
+    }};
 //    NewTutor tutorFragment = new NewTutor();
 
     //intiializing tabs
@@ -56,85 +62,6 @@ public class MainActivity extends Activity{
         ft.add(R.id.main_activity_container, new NewTutor());
         ft.commit();
 
-
-        //final Context context = getApplicationContext();
-        //final RecordTutorSessionActivity newActivity = new RecordTutorSessionActivity();
-
-//        nameEditText = (EditText) findViewById(R.id.et_name);
-//        notesEditText = (EditText) findViewById(R.id.et_notes);
-//        timePicker = (TimePicker) findViewById(R.id.timePicker);
-//        datePicker = (DatePicker) findViewById(R.id.datePicker);
-//        submitButton = (Button) findViewById(R.id.bt_submit);
-
-//        try {
-//            studentsDb = new StudentsDb(context);
-//            studentsDb.setUpDb();
-//        } catch (CouchbaseLiteException c) {
-//            Log.d("Couch", "Did not initiate database.");
-//            return;
-//        } catch (IOException e ) {
-//            Log.d("Couch", "Did not initiate database.");
-//            return;
-//        }
-
-//        submitButtonListener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Form form = new Form(
-//                        nameEditText.getText().toString(),
-//                        datePicker.getYear(),
-//                        datePicker.getMonth(),
-//                        datePicker.getDayOfMonth(),
-//                        timePicker.getCurrentHour(),
-//                        timePicker.getCurrentMinute(),
-//                        notesEditText.getText().toString());
-//
-//                JSONObject jsonForm = form.javaToJSONObjectConverter();
-//                newActivity.postNewForm(context, jsonForm);
-//                //postNewForm(context, jsonForm);
-//
-//                Document formDocument = studentsDb.database.createDocument();
-//
-//                try {
-//                    @SuppressWarnings("unchecked")
-//                    Map<String, Object> mapForm = form.toHashMapConverter();
-//                    formDocument.putProperties(mapForm);
-//                    Log.d (TAG, "Document written to database named " + studentsDb.dbName
-//                            + " with ID = " + formDocument.getId());
-//
-//                    // save the ID of the new document
-//                    String docID = formDocument.getId();
-//                    // retrieve the document from the database
-//                    Document retrievedDocument = studentsDb.database.getDocument(docID);
-//                    // display the retrieved document
-//                    Log.d(TAG, "retrievedDocument=" + String.valueOf(retrievedDocument.getProperties()));
-//
-//                    // Display number of files in document.
-//                    Log.d(TAG, String.valueOf(studentsDb.database.getDocumentCount()));
-//
-//                } catch (CouchbaseLiteException e) {
-//                    Log.e(TAG, "Cannot write document to database", e);
-//                }
-//            }
-//        };
-//        Log.d("MainActivity", "Before OnClickListener");
-//        submitButton.setOnClickListener(submitButtonListener);
-//        Log.d("MainActivity", "AfterOnClickListener");
-//        Query query = studentsDb.database.createAllDocumentsQuery();
-//        query.setLimit(10);
-//        query.setDescending(true);
-//
-//        try {
-//            QueryEnumerator rowEnum = query.run();
-//            for (Iterator<QueryRow> it = rowEnum;
-//                 it.hasNext();) {
-//                QueryRow row = it.next();
-//                Log.d("Document ID:", row.getDocumentId());
-//
-//            }
-//        } catch (CouchbaseLiteException e) {
-//            e.printStackTrace();
-//        }
 
     }
 
@@ -183,9 +110,7 @@ public class MainActivity extends Activity{
             case R.id.roster:
                 selectFragment(new Roster());
                 return true;
-            case R.id.tutor:
-                selectFragment(new Tutor());
-                return true;
+
 
         }
         return super.onOptionsItemSelected(item);
