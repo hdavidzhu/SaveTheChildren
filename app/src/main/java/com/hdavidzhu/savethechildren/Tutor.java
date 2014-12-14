@@ -21,15 +21,13 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.hdavidzhu.savethechildren.R;
+import com.hdavidzhu.savethechildren.callbacks.SubjectsCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by casey on 12/2/14.
- */
 public class Tutor extends Fragment{
     Context context;
 
@@ -38,7 +36,8 @@ public class Tutor extends Fragment{
     ListView listview;
     ArrayAdapter<String> adapter;
     List<String> arr;
-    String[] items = {"Fake Module 1", "Fake Module 2", "Fake Module 3", "Fake Module 4"};
+
+    //String[] items = {"Fake Module 1", "Fake Module 2", "Fake Module 3", "Fake Module 4"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class Tutor extends Fragment{
         View view = inflater.inflate(R.layout.tutor, container, false);
         //now you must initialize your list view
         ListView listview = (ListView)view.findViewById(R.id.training_list);
-        arr = new ArrayList<String>(Arrays.asList(items));
+        arr = MainActivity.tutorItems;
         adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, arr);
         listview.setAdapter(adapter);
 
@@ -58,6 +57,7 @@ public class Tutor extends Fragment{
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container, new Subject());
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -69,7 +69,6 @@ public class Tutor extends Fragment{
                 return false;
             }
         });
-
         return view;
     }
 
@@ -84,8 +83,6 @@ public class Tutor extends Fragment{
         alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TOD O Auto-generated method stub
-
                 // main code on after clicking yes
                 arr.remove(deletePosition);
                 adapter.notifyDataSetChanged();
@@ -99,8 +96,6 @@ public class Tutor extends Fragment{
                 dialog.dismiss();
             }
         });
-
         alert.show();
-
     }
 }
