@@ -1,5 +1,6 @@
 package com.hdavidzhu.savethechildren;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -20,6 +21,13 @@ import java.util.List;
  */
 public class Roster extends Fragment{
     Context context;
+    MainActivity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (MainActivity) activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,15 +47,18 @@ public class Roster extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // JSONObject subjects = getSubjects();
-                // Log.d("Subjects", subjects.toString());
-                Tutor fragment = new Tutor();
-                Bundle bundle = new Bundle();
-                bundle.putString("name", MainActivity.names.get(i));
-                fragment.setArguments(bundle);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_activity_container, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                // Log.d("Subjects", subjects.toString());Tutor
+//                Tutor fragment = new Tutor();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("name", MainActivity.names.get(i));
+//                fragment.setArguments(bundle);
+//
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.main_activity_container, Tutor.newInstance(MainActivity.names.get(i)));
+////                ft.addToBackStack(null);
+//                ft.commit();
+
+                activity.switchTutor(MainActivity.names.get(i));
             }
         });
 

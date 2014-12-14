@@ -47,6 +47,8 @@ public class MainActivity extends Activity{
         add("David");
         add("Casey");
     }};
+
+    Tutor curTutor;
 //    NewTutor tutorFragment = new NewTutor();
 
     //intiializing tabs
@@ -122,6 +124,15 @@ public class MainActivity extends Activity{
         ft.replace(R.id.main_activity_container, fragment);
         ft.commit();
 
+    }
+
+    public void goBackToTutor() {
+        selectFragment(curTutor);
+    }
+
+    public void switchTutor(String newTutor) {
+        curTutor = Tutor.newInstance(newTutor);
+        goBackToTutor();
     }
 
 }
