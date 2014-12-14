@@ -21,15 +21,13 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.hdavidzhu.savethechildren.R;
+import com.hdavidzhu.savethechildren.callbacks.SubjectsCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by casey on 12/2/14.
- */
 public class Tutor extends Fragment{
     Context context;
 
@@ -70,7 +68,6 @@ public class Tutor extends Fragment{
                 return false;
             }
         });
-
         return view;
     }
 
@@ -85,8 +82,6 @@ public class Tutor extends Fragment{
         alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TOD O Auto-generated method stub
-
                 // main code on after clicking yes
                 arr.remove(deletePosition);
                 adapter.notifyDataSetChanged();
@@ -100,8 +95,6 @@ public class Tutor extends Fragment{
                 dialog.dismiss();
             }
         });
-
         alert.show();
-
     }
 }

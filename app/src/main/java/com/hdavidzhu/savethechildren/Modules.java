@@ -31,7 +31,6 @@ public class Modules extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container,new Tutor());
                 ft.commit();
-
             }
         });
         return view;

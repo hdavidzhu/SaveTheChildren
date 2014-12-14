@@ -20,7 +20,7 @@ app.set('views', __dirname + '/public');
 app.set('view engine', 'jade');
 
 // Set our port
-var port = process.env.PORT || 3002; 
+var port = process.env.PORT || 3000; 
 
 // Routing
 var router = express.Router(); // get an instance of the express Router
@@ -41,7 +41,7 @@ router.route('/subjects')
 				for (i = 0; i < subjects.length; i++) { 
 					subjects_list.push(subjects[i].name);
 				}
-				res.send(subjects_list);
+				res.send({"subjects": subjects_list});
 			})
 	});
 
@@ -58,7 +58,7 @@ router.route('/subject/:subject')
 		  		.select("_id name")	
 		  		.find()
 		  		.exec(function (err,grades) {
-		  			res.send([subject_info, grades]);
+		  			res.send({subject_info: grades});
 		  		})
 		  })
 	});
@@ -75,9 +75,10 @@ router.route('/subject/:subject/:grade')
 		  	if (err) return handleError(err);
 		  	ClassModule
 		  		.where("grade_id", grade_info._id)
-		  		.select("_id name")
+		  		// .select("_id name")
 		  		.find()
 		  		.exec(function (err,class_modules) {
+		  			console.log(class_modules);
 		  			res.send([grade_info, class_modules]);
 		  		})
 			})
