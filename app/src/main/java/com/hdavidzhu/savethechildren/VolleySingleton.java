@@ -121,46 +121,50 @@ public class VolleySingleton {
         return response;
     }
 
-//    public JSONObject getClassModules(final String subject,
-//                                      final String grade,
-//                                      final ClassModuleCallback callback) {
-//        response = new JSONObject();
-//        String url = "http://192.168.56.101:3000/subject/" + subject + "/" + grade;
-//
-//        final JsonObjectRequest classModuleRequest = new JsonObjectRequest(
-//                Request.Method.GET,
-//                url,
-//                null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject serverResponse) {
-//                        try {
-//                            response = serverResponse;
-//                            List<String> classModulesList = new ArrayList<String>();
-//                            JSONArray classModulesArray = response.getJSONArray("subject_info");
-//                            Log.d("gradeLength", String.valueOf(gradesArray.length()));
-//                            for(int i = 0 ; i < gradesArray.length() ; i++){
-//                                gradesList.add(gradesArray.getJSONObject(i).getString("name"));
-//                            }
-//
-//                            java.util.Collections.sort(gradesList);
-//
-//                            callback.handle(gradesList);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d("onErrorResponse", "Get failed");
-//                Log.d("onErrorResponse", error.toString());
-//            }
-//        });
-//
-//        queue.add(gradesRequest);
-//
-//        return response;
-//    }
+    public JSONObject getClassModules(final String subject,
+                                      final String grade,
+                                      final ClassModuleCallback callback) {
+        response = new JSONObject();
+        String url = "http://192.168.56.101:3000/subject/" + subject + "/" + grade;
+
+        final JsonObjectRequest classModuleRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                        try {
+                            response = serverResponse;
+
+
+
+
+
+                            List<String> classModulesList = new ArrayList<String>();
+                            JSONArray classModulesArray = response.getJSONArray("");
+                            for(int i = 0 ; i < classModulesArray.length() ; i++){
+                                classModulesList.add(classModulesArray.getJSONObject(i).getString("name"));
+                            }
+
+                            java.util.Collections.sort(classModulesList);
+
+                            callback.handle(classModulesList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        queue.add(classModuleRequest);
+
+        return response;
+    }
 
 }

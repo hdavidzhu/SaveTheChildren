@@ -47,8 +47,6 @@ public class Subject extends Fragment {
 
                 ft.replace(R.id.main_activity_container, chosenGrade);
                 ft.addToBackStack(null);
-
-                ft.replace(R.id.main_activity_container, new Grade());
                 ft.commit();
             }
         });
