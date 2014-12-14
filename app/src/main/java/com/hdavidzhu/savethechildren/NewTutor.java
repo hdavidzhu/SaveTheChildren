@@ -131,7 +131,7 @@ public class NewTutor extends Fragment {
         try {
             QueryEnumerator rowEnum = query.run();
             for (Iterator<QueryRow> it = rowEnum;
-                 it.hasNext();) {
+                 it.hasNext(); ) {
                 QueryRow row = it.next();
                 Log.d("Document ID:", row.getDocumentId());
 
@@ -141,7 +141,6 @@ public class NewTutor extends Fragment {
         }
         return rootView;
     }
-
 
 
 }

@@ -32,7 +32,6 @@ public class Module extends Fragment {
                 ft.replace(R.id.main_activity_container,new Tutor());
                 ft.addToBackStack(null);
                 ft.commit();
-
             }
         });
         return view;
