@@ -12,6 +12,8 @@ import com.android.volley.toolbox.Volley;
 import com.hdavidzhu.savethechildren.callbacks.ClassModuleCallback;
 import com.hdavidzhu.savethechildren.callbacks.GradeCallback;
 import com.hdavidzhu.savethechildren.callbacks.SubjectsCallback;
+import com.hdavidzhu.savethechildren.callbacks.TutorItemsCallback;
+import com.hdavidzhu.savethechildren.callbacks.TutorsCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -166,8 +168,79 @@ public class VolleySingleton {
         return response;
     }
 
-//    public void setTutorModules (final ClassModuleCallback callback) {
-//        response = new JSONObject();
-//        String url = "http://192.168.56.101:3000/subject/" + subject + "/" + grade;
-//    }
+    public JSONObject getTutors(final TutorsCallback callback) {
+        response = new JSONObject();
+        String url = "http://192.168.56.101:3000/teachers";
+
+        final JsonObjectRequest tutorsRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                        try {
+                            response = serverResponse;
+                            List<String> tutorsList = new ArrayList<String>();
+                            JSONArray tutorsArray = response.getJSONArray("teachers");
+                            for(int i = 0 ; i < tutorsArray.length() ; i++){
+                                tutorsList.add(tutorsArray.getString(i));
+                            }
+
+                            callback.handle(tutorsList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        queue.add(tutorsRequest);
+
+        return response;
+    }
+
+    public JSONObject getTutorItems(String teacher, final TutorItemsCallback callback) {
+        response = new JSONObject();
+        teacher = teacher.replaceAll(" ", "%20");
+        String url = "http://192.168.56.101:3000/teacher/" + teacher;
+        Log.d("URL", url);
+
+        final JsonObjectRequest tutorItemsRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                        try {
+                            response = serverResponse;
+                            List<String> tutorItemsList = new ArrayList<String>();
+                            JSONArray tutorItemsArray = response.getJSONArray("help");
+                            for(int i = 0 ; i < tutorItemsArray.length() ; i++){
+                                tutorItemsList.add(tutorItemsArray.getString(i));
+                            }
+
+                            callback.handle(tutorItemsList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+        queue.add(tutorItemsRequest);
+        return response;
+    }
+
+    public void setTutorItem(String teacher, String class)
 }
