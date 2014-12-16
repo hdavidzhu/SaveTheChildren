@@ -13,9 +13,5 @@
         android:orderInCategory="100"
         android:showAsAction="ifRoom" />
 
-    <item android:id="@+id/tutor"
-        android:title="Tutor"
-        android:orderInCategory="100"
-        android:showAsAction="ifRoom" />
 
 </menu>
