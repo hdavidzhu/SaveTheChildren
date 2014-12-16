@@ -137,19 +137,18 @@ public class VolleySingleton {
                         try {
                             response = serverResponse;
 
-
-
-
-
                             List<String> classModulesList = new ArrayList<String>();
-                            JSONArray classModulesArray = response.getJSONArray("");
+                            JSONArray classModulesArray = response.getJSONArray("grade_info");
                             for(int i = 0 ; i < classModulesArray.length() ; i++){
                                 classModulesList.add(classModulesArray.getJSONObject(i).getString("name"));
                             }
 
                             java.util.Collections.sort(classModulesList);
 
+                            // TODO Add commands that allow this information to be relayed back to the server.
+
                             callback.handle(classModulesList);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -167,4 +166,8 @@ public class VolleySingleton {
         return response;
     }
 
+//    public void setTutorModules (final ClassModuleCallback callback) {
+//        response = new JSONObject();
+//        String url = "http://192.168.56.101:3000/subject/" + subject + "/" + grade;
+//    }
 }

@@ -23,8 +23,6 @@ public class Module extends Fragment {
         final View view = inflater.inflate(R.layout.training_module, container, false);
         final ListView listview =(ListView)view.findViewById(R.id.modules_listview);
 
-        // final String[] items = new String[] {"Fake Module One", "Fake Module Two", "Fake Module Three", "Fake Module Four", "Fake Module Five"};
-
         Bundle bundle = this.getArguments();
         String mySubject = bundle.getString("subject");
         String myGrade = bundle.getString("grade");
@@ -37,12 +35,19 @@ public class Module extends Fragment {
                         new ArrayAdapter<String>(view.getContext(), R.layout.module_list_item, items);
                 listview.setAdapter(adapter);
             }
+
+            @Override
+            public void send(String classModule) {}
         });
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 MainActivity.tutorItems.add(items[i]);
+
+//                VolleySingleton.getInstance().
+
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container,new Tutor());
                 ft.addToBackStack(null);

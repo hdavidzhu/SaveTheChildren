@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface ClassModuleCallback {
     public void handle(List<String> classModules);
+    public void send(String classModule);
 }
