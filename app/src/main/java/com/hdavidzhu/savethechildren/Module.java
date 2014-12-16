@@ -1,5 +1,6 @@
 package com.hdavidzhu.savethechildren;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -15,6 +16,13 @@ import android.widget.ListView;
  * Created by casey on 12/2/14.
  */
 public class Module extends Fragment {
+    MainActivity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (MainActivity) activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,10 +36,13 @@ public class Module extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                  MainActivity.tutorItems.add(items[i]);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_activity_container,new Tutor());
-                ft.addToBackStack(null);
-                ft.commit();
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.main_activity_container, );
+//                //ft.addToBackStack(null);
+//                ft.commit();
+
+                activity.goBackToTutor();
+
             }
         });
         return view;
