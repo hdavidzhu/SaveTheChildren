@@ -40,7 +40,7 @@ public class MainActivity extends Activity{
         add("Local Tutor");
     }};
 
-    Tutor curTutor;
+    public static Tutor curTutor;
 //    NewTutor tutorFragment = new NewTutor();
 
     // Initializing tabs

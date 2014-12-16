@@ -38,6 +38,7 @@ public class VolleySingleton {
             queue = VolleySingleton.getInstance().getRequestQueue();
         }
     }
+
     public static VolleySingleton getInstance() {
         return mInstance;
     }
@@ -61,7 +62,7 @@ public class VolleySingleton {
                             response = serverResponse;
                             List<String> subjectList = new ArrayList<String>();
                             JSONArray subjectArray = response.getJSONArray("subjects");
-                            for(int i = 0 ; i < subjectArray.length() ; i++){
+                            for (int i = 0; i < subjectArray.length(); i++) {
                                 subjectList.add(subjectArray.getString(i));
                             }
 
@@ -85,7 +86,8 @@ public class VolleySingleton {
 
     public JSONObject getGrades(final String subject, final GradeCallback callback) {
         response = new JSONObject();
-        String url = "http://192.168.56.101:3000/subject/" + subject;
+        String fixedSubject = subject.replaceAll(" ", "%20");
+        String url = "http://192.168.56.101:3000/subject/" + fixedSubject;
 
         final JsonObjectRequest gradesRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -99,7 +101,7 @@ public class VolleySingleton {
                             List<String> gradesList = new ArrayList<String>();
                             JSONArray gradesArray = response.getJSONArray("subject_info");
                             Log.d("gradeLength", String.valueOf(gradesArray.length()));
-                            for(int i = 0 ; i < gradesArray.length() ; i++){
+                            for (int i = 0; i < gradesArray.length(); i++) {
                                 gradesList.add(gradesArray.getJSONObject(i).getString("name"));
                             }
 
@@ -127,7 +129,10 @@ public class VolleySingleton {
                                       final String grade,
                                       final ClassModuleCallback callback) {
         response = new JSONObject();
-        String url = "http://192.168.56.101:3000/subject/" + subject + "/" + grade;
+        String fixedSubject = subject.replaceAll(" ", "%20");
+        String fixedGrade = grade.replaceAll(" ", "%20");
+
+        String url = "http://192.168.56.101:3000/subject/" + fixedSubject + "/" + fixedGrade;
 
         final JsonObjectRequest classModuleRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -141,7 +146,7 @@ public class VolleySingleton {
 
                             List<String> classModulesList = new ArrayList<String>();
                             JSONArray classModulesArray = response.getJSONArray("grade_info");
-                            for(int i = 0 ; i < classModulesArray.length() ; i++){
+                            for (int i = 0; i < classModulesArray.length(); i++) {
                                 classModulesList.add(classModulesArray.getJSONObject(i).getString("name"));
                             }
 
@@ -183,7 +188,7 @@ public class VolleySingleton {
                             response = serverResponse;
                             List<String> tutorsList = new ArrayList<String>();
                             JSONArray tutorsArray = response.getJSONArray("teachers");
-                            for(int i = 0 ; i < tutorsArray.length() ; i++){
+                            for (int i = 0; i < tutorsArray.length(); i++) {
                                 tutorsList.add(tutorsArray.getString(i));
                             }
 
@@ -205,10 +210,10 @@ public class VolleySingleton {
         return response;
     }
 
-    public JSONObject getTutorItems(String teacher, final TutorItemsCallback callback) {
+    public JSONObject getTutorItems(final String teacher, final TutorItemsCallback callback) {
         response = new JSONObject();
-        teacher = teacher.replaceAll(" ", "%20");
-        String url = "http://192.168.56.101:3000/teacher/" + teacher;
+        String fixedTeacher = teacher.replaceAll(" ", "%20");
+        String url = "http://192.168.56.101:3000/teacher/" + fixedTeacher;
         Log.d("URL", url);
 
         final JsonObjectRequest tutorItemsRequest = new JsonObjectRequest(
@@ -222,7 +227,7 @@ public class VolleySingleton {
                             response = serverResponse;
                             List<String> tutorItemsList = new ArrayList<String>();
                             JSONArray tutorItemsArray = response.getJSONArray("help");
-                            for(int i = 0 ; i < tutorItemsArray.length() ; i++){
+                            for (int i = 0; i < tutorItemsArray.length(); i++) {
                                 tutorItemsList.add(tutorItemsArray.getString(i));
                             }
 
@@ -241,6 +246,7 @@ public class VolleySingleton {
         queue.add(tutorItemsRequest);
         return response;
     }
-
-    public void setTutorItem(String teacher, String class)
 }
+
+//    public void setTutorItem(String teacher, String class)
+//}

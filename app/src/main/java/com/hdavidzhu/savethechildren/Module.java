@@ -58,7 +58,7 @@ public class Module extends Fragment {
 //                activity.goBackToTutor();
 
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_activity_container,new Tutor());
+                ft.replace(R.id.main_activity_container, MainActivity.curTutor);
                 ft.addToBackStack(null);
                 ft.commit();
             }
