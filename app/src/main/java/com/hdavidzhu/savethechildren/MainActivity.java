@@ -45,7 +45,7 @@ public class MainActivity extends Activity{
     }};
 
     Tutor curTutor;
-//    NewTutor tutorFragment = new NewTutor();
+//    newTutor tutorFragment = new newTutor();
 
     //intiializing tabs
 
@@ -57,7 +57,7 @@ public class MainActivity extends Activity{
         Log.d("Main Activity", "onCreate");
         setupTabs();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.main_activity_container, new NewTutor());
+        ft.add(R.id.main_activity_container, new newTutor());
         ft.commit();
 
 
@@ -103,7 +103,7 @@ public class MainActivity extends Activity{
 //                MainActivity();
 //                Intent intent = new Intent(this, MainActivity.class);
 //                startActivity(intent);
-                selectFragment(new NewTutor());
+                selectFragment(new newTutor());
                 return true;
             case R.id.roster:
                 selectFragment(new Roster());

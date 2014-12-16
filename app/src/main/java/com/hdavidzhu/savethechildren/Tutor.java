@@ -121,7 +121,7 @@ public class Tutor extends Fragment{
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
                         Log.i("DebugDebug", "Here");
-                        getFragmentManager().beginTransaction().replace(R.id.main_activity_container, new NewTutor()).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.main_activity_container, new newTutor()).commit();
                         return true;
                     }
                     return false;
