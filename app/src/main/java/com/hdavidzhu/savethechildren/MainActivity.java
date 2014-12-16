@@ -13,10 +13,6 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by casey on 11/20/14.
- */
-
 //DON'T FORGET TO ADD A BACK TO STACK
 public class MainActivity extends Activity{
     //calls record tutor session

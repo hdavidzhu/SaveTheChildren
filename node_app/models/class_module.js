@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var ClassModuleSchema = new Schema({
-	grade_id: Schema.Types.ObjectId,
+	grade_id: String,
 	name: String
 });
 
