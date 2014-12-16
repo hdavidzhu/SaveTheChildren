@@ -57,7 +57,7 @@ public class Tutor extends Fragment{
 //        TextView textview = (TextView) view.findViewById(R.id.text_view);
 //        textview.setText("Yeah what up");
         View view = inflater.inflate(R.layout.tutor, container, false);
-        handleBackPress();
+//        handleBackPress();
 
         //now you must initialize your list view
         ListView listview = (ListView)view.findViewById(R.id.training_list);
