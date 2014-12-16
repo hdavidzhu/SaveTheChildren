@@ -3,7 +3,6 @@ package com.hdavidzhu.savethechildren;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +46,6 @@ public class Subject extends Fragment {
 
                 ft.replace(R.id.main_activity_container, chosenGrade);
                 ft.addToBackStack(null);
-
-                ft.replace(R.id.main_activity_container, new Grade());
                 ft.commit();
             }
         });

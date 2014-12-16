@@ -3,33 +3,22 @@ package com.hdavidzhu.savethechildren;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.hdavidzhu.savethechildren.R;
-import com.hdavidzhu.savethechildren.callbacks.SubjectsCallback;
+import com.hdavidzhu.savethechildren.callbacks.TutorItemsCallback;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class Tutor extends Fragment{
@@ -54,16 +43,24 @@ public class Tutor extends Fragment{
 //        View view = inflater.inflate(R.layout.tab, container, false);
 //        TextView textview = (TextView) view.findViewById(R.id.text_view);
 //        textview.setText("Yeah what up");
-        View view = inflater.inflate(R.layout.tutor, container, false);
+        final View view = inflater.inflate(R.layout.tutor, container, false);
 //        handleBackPress();
 
         //now you must initialize your list view
-        ListView listview = (ListView)view.findViewById(R.id.training_list);
-        arr = MainActivity.tutorItems;
+        final ListView listview = (ListView)view.findViewById(R.id.training_list);
+
         final TextView tutorName = (TextView) view.findViewById(R.id.tutor_name);
         tutorName.setText(this.name);
-        adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, arr);
-        listview.setAdapter(adapter);
+
+
+        VolleySingleton.getInstance().getTutorItems(this.name, new TutorItemsCallback() {
+            @Override
+            public void handle(List<String> tutorItems) {
+                arr = tutorItems;
+                adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tutor_list_item, arr);
+                listview.setAdapter(adapter);
+            }
+        });
 
         Button addButton = (Button) view.findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.hdavidzhu.savethechildren.callbacks.TutorsCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,40 +29,37 @@ public class MainActivity extends Activity{
 //    private static final String TAG = "Couch";
 //
 //    View.OnClickListener submitButtonListener;
-//
+
     Roster rosterFragment = new Roster();
 
-
     public static List <String> tutorItems = new ArrayList<String>(){{
-        add("Fake Module 1");
-        add("Fake Module 2");
-        add("Fake Module 3");
-        add("Fake Module 4");
+        add("Local Tutor Items");
     }};
 
     public static List <String> names = new ArrayList<String>() {{
-        add("Paigers");
-        add("David");
-        add("Casey");
+        add("Local Tutor");
     }};
 
-    Tutor curTutor;
-//    newTutor tutorFragment = new newTutor();
+    public static Tutor curTutor;
+//    NewTutor tutorFragment = new NewTutor();
 
-    //intiializing tabs
-
+    // Initializing tabs
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
-        Log.d("Main Activity", "onCreate");
         setupTabs();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.add(R.id.main_activity_container, new newTutor());
         ft.commit();
 
-
+        VolleySingleton.getInstance().getTutors(new TutorsCallback() {
+            @Override
+            public void handle(List<String> tutors) {
+                names = tutors;
+            }
+        });
     }
 
     private void setupTabs(){
@@ -77,6 +76,7 @@ public class MainActivity extends Activity{
         Log.d("Main Activity", "onCreateOptionsMenu");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my, menu);
+
         //return true;
         return super.onCreateOptionsMenu(menu);
     }
@@ -106,11 +106,14 @@ public class MainActivity extends Activity{
                 selectFragment(new newTutor());
                 return true;
             case R.id.roster:
-                selectFragment(new Roster());
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Roster myRoster = new Roster();
+                ft.replace(R.id.main_activity_container, myRoster);
+                ft.commit();
+
                 return true;
-
-
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -119,10 +122,10 @@ public class MainActivity extends Activity{
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.main_activity_container, fragment);
         ft.commit();
-
     }
 
     public void goBackToTutor() {
+        Bundle curTutorBundle = new Bundle();
         selectFragment(curTutor);
     }
 
@@ -130,5 +133,4 @@ public class MainActivity extends Activity{
         curTutor = Tutor.newInstance(newTutor);
         goBackToTutor();
     }
-
 }

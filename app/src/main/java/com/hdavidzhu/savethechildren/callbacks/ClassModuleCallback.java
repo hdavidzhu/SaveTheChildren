@@ -3,5 +3,6 @@ package com.hdavidzhu.savethechildren.callbacks;
 import java.util.List;
 
 public interface ClassModuleCallback {
-    public void handle(List<String> subjects);
+    public void handle(List<String> classModules);
+    public void send(String classModule);
 }
