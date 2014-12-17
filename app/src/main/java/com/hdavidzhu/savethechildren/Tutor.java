@@ -37,7 +37,7 @@ public class Tutor extends Fragment{
         return fragment;
     }
 
-    // The onCreate method for this takes in the Layout, the View, and the Bundle that contains variables we need
+    // The onCreate method for this class takes in the Layout, the View, and the Bundle that contains variables we need
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.tutor, container, false);
