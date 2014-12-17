@@ -25,8 +25,10 @@ public class Subject extends Fragment {
         final View view = inflater.inflate(R.layout.training_subject, container, false);
         final ListView listview =(ListView)view.findViewById(R.id.subjects_listview);
 
+        //Get instance of volley singleton and the getSubjects method that it defines
         VolleySingleton.getInstance().getSubjects(new SubjectsCallback() {
             @Override
+            //When Volley calls callback.handle this method can process the data from the get method
             public void handle(List<String> subjects) {
                 items = subjects.toArray(new String[subjects.size()]);
                 final ArrayAdapter<String> adapter =
