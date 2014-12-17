@@ -219,7 +219,6 @@ public class VolleySingleton {
         response = new JSONObject();
         String fixedTeacher = teacher.replaceAll(" ", "%20");
         String url = domainURL + "teacher/" + fixedTeacher;
-        Log.d("URL", url);
 
         final JsonObjectRequest tutorItemsRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -253,33 +252,84 @@ public class VolleySingleton {
         return response;
     }
 
-    public void setTutorItem(String teacher, JSONObject classModule) {
+    public void setTutorItem(String teacher, String classModule) {
         response = new JSONObject();
 
-        String url = domainURL + "teacher/" + teacher;
+        String fixedTeacher = teacher.replaceAll(" ", "%20");
 
+        // Set the route for the tutor so we populate the modules for the right tutor.
+        String url = domainURL + "teacher/" + fixedTeacher;
+
+        // Converting inputted classModule string into a JSONObject that can be sent through Volley's POST request.
+        JSONObject classModuleObject = new JSONObject();
+        try {
+            classModuleObject.put("module", classModule);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Declare the POST request.
         final JsonObjectRequest setTutorItemRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
-                classModule,
+                classModuleObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject serverResponse) {
-//                        try {
-//                            response = serverResponse;
-
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
+                        response = serverResponse;
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", "Post failed");
                 Log.d("onErrorResponse", error.toString());
             }
         });
 
+        // Finally, add to the queue.
+        queue.add(setTutorItemRequest);
+    }
+
+    public void deleteTutorItem(String teacher, String classModule) {
+        response = new JSONObject();
+
+
+        String fixedTeacher = teacher.replaceAll(" ", "%20");
+
+        // Set the route for the tutor so we populate the modules for the right tutor.
+        String url = domainURL + "teacher/" + fixedTeacher + "/delete/";
+        Log.d("URL", url);
+        Log.d("Class Module", classModule);
+
+        // Converting inputted classModule string into a JSONObject that can be sent through Volley's POST request.
+        JSONObject classModuleObject = new JSONObject();
+
+//        classModule = classModule.replaceAll(" ", "%20");
+        try {
+            classModuleObject.put("module", classModule);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Declare the DELETE request.
+        final JsonObjectRequest setTutorItemRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                classModuleObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                        response = serverResponse;
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Delete failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        // Finally, add to the queue.
         queue.add(setTutorItemRequest);
     }
 }

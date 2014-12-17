@@ -3,7 +3,6 @@ package com.hdavidzhu.savethechildren;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,6 @@ import com.hdavidzhu.savethechildren.callbacks.TutorItemsCallback;
 import java.util.List;
 
 public class Tutor extends Fragment{
-    Context context;
     String name;
     //this fragment will display the name and then the list of things they need training in
 
@@ -83,7 +81,7 @@ public class Tutor extends Fragment{
         return view;
     }
 
-    // method to remove list item
+    // Method to remove list items.
     protected void removeItemFromList(int position) {
         final int deletePosition = position;
 
@@ -95,10 +93,13 @@ public class Tutor extends Fragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // main code on after clicking yes
+
+                VolleySingleton.getInstance().deleteTutorItem(MainActivity.curTutor.name, arr.get(deletePosition));
                 arr.remove(deletePosition);
+
+
                 adapter.notifyDataSetChanged();
                 adapter.notifyDataSetInvalidated();
-
             }
         });
         alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
