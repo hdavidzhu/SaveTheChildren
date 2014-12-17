@@ -61,9 +61,8 @@ public class Module extends Fragment {
 
                 // TODO Replace these dummy data.
                 String teacher = "Dummy Teacher";
-                JSONObject classModule = null;
 
-                VolleySingleton.getInstance().setTutorItem(teacher,classModule);
+                VolleySingleton.getInstance().setTutorItem(MainActivity.curTutor.name, items[i]);
 
                 activity.goBackToTutor();
 

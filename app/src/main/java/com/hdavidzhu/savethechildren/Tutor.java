@@ -3,11 +3,8 @@ package com.hdavidzhu.savethechildren;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +20,6 @@ import java.util.List;
 
 // This fragment will display the Tutors name and then the list of things they need training in
 public class Tutor extends Fragment{
-    Context context;
     String name;
 
     ListView listview;
@@ -86,6 +82,7 @@ public class Tutor extends Fragment{
         return view;
     }
 
+
     // This method to takes in a position of the item that is clicked and then creates an alert dialog that allows users to delete the item
     protected void removeItemFromList(int position) {
         final int deletePosition = position;
@@ -97,10 +94,12 @@ public class Tutor extends Fragment{
         alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Code that removes items
+                // main code on after clicking yes
+
+                VolleySingleton.getInstance().deleteTutorItem(MainActivity.curTutor.name, arr.get(deletePosition));
                 arr.remove(deletePosition);
+
                 adapter.notifyDataSetChanged();
-                adapter.notifyDataSetInvalidated();// TODO remove?
 
             }
         });
