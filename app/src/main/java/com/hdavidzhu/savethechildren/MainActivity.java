@@ -51,7 +51,7 @@ public class MainActivity extends Activity{
         setContentView(R.layout.main_activity);
         setupTabs();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.main_activity_container, new newTutor());
+        ft.add(R.id.main_activity_container, new NewTutor());
         ft.commit();
 
         VolleySingleton.getInstance().getTutors(new TutorsCallback() {
@@ -103,7 +103,7 @@ public class MainActivity extends Activity{
 //                MainActivity();
 //                Intent intent = new Intent(this, MainActivity.class);
 //                startActivity(intent);
-                selectFragment(new newTutor());
+                selectFragment(new NewTutor());
                 return true;
             case R.id.roster:
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
