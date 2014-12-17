@@ -28,6 +28,7 @@ public class Module extends Fragment {
 
     public String[] items;
 
+    // The onCreate method for this class takes in the Layout, the View, and the Bundle that contains variables we need
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.training_module, container, false);
@@ -37,7 +38,9 @@ public class Module extends Fragment {
         String mySubject = bundle.getString("subject");
         String myGrade = bundle.getString("grade");
 
+        //Get instance of volley singleton and the getClassModules method that it defines
         VolleySingleton.getInstance().getClassModules(mySubject, myGrade, new ClassModuleCallback() {
+            //When VolleySingleton calls callback.handle this method can process the list that is passed through the callback
             @Override
             public void handle(List<String> classModules) {
                 items = classModules.toArray(new String[classModules.size()]);
@@ -50,6 +53,7 @@ public class Module extends Fragment {
             public void send(String classModule) {}
         });
 
+        // This onClick listener takes in the adapter view and changes the fragment to the fragment that the user clicks on
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
