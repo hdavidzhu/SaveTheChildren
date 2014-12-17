@@ -50,16 +50,10 @@ public class MainActivity extends Activity{
 
         setContentView(R.layout.main_activity);
         setupTabs();
-<<<<<<< HEAD
 
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.add(R.id.main_activity_container, new newTutor());
-//        ft.commit();
-=======
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.add(R.id.main_activity_container, new NewTutor());
         ft.commit();
->>>>>>> master
 
         VolleySingleton.getInstance().getTutors(new TutorsCallback() {
             @Override
