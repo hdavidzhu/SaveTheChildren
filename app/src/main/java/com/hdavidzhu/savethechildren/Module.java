@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import com.hdavidzhu.savethechildren.callbacks.ClassModuleCallback;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class Module extends Fragment {
@@ -53,9 +55,13 @@ public class Module extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MainActivity.tutorItems.add(items[i]);
 
-//                VolleySingleton.getInstance().
+                // TODO Replace these dummy data.
+                String teacher = "Dummy Teacher";
+                JSONObject classModule = null;
 
-//                activity.goBackToTutor();
+                VolleySingleton.getInstance().setTutorItem(teacher,classModule);
+
+                activity.goBackToTutor();
 
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_activity_container, MainActivity.curTutor);

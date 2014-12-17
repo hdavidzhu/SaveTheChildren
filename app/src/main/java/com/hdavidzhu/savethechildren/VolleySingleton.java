@@ -28,6 +28,11 @@ public class VolleySingleton {
     JSONObject response;
     static RequestQueue queue;
 
+    String domainURL = "http://192.168.56.101:3000/";
+//    String domainURL = "http://savethechildren.herokuapp.com/";
+
+    JSONArray tutorItemsArray;
+
     public VolleySingleton(Context context) {
         mRequestQueue = Volley.newRequestQueue(context);
     }
@@ -49,7 +54,7 @@ public class VolleySingleton {
 
     public JSONObject getSubjects(final SubjectsCallback callback) {
         response = new JSONObject();
-        String url = "http://192.168.56.101:3000/subjects";
+        String url = domainURL + "subjects";
 
         final JsonObjectRequest subjectsRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -87,7 +92,7 @@ public class VolleySingleton {
     public JSONObject getGrades(final String subject, final GradeCallback callback) {
         response = new JSONObject();
         String fixedSubject = subject.replaceAll(" ", "%20");
-        String url = "http://192.168.56.101:3000/subject/" + fixedSubject;
+        String url = domainURL + "subject/" + fixedSubject;
 
         final JsonObjectRequest gradesRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -132,7 +137,7 @@ public class VolleySingleton {
         String fixedSubject = subject.replaceAll(" ", "%20");
         String fixedGrade = grade.replaceAll(" ", "%20");
 
-        String url = "http://192.168.56.101:3000/subject/" + fixedSubject + "/" + fixedGrade;
+        String url = domainURL + "subject/" + fixedSubject + "/" + fixedGrade;
 
         final JsonObjectRequest classModuleRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -175,7 +180,7 @@ public class VolleySingleton {
 
     public JSONObject getTutors(final TutorsCallback callback) {
         response = new JSONObject();
-        String url = "http://192.168.56.101:3000/teachers";
+        String url = domainURL + "teachers";
 
         final JsonObjectRequest tutorsRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -213,7 +218,7 @@ public class VolleySingleton {
     public JSONObject getTutorItems(final String teacher, final TutorItemsCallback callback) {
         response = new JSONObject();
         String fixedTeacher = teacher.replaceAll(" ", "%20");
-        String url = "http://192.168.56.101:3000/teacher/" + fixedTeacher;
+        String url = domainURL + "teacher/" + fixedTeacher;
         Log.d("URL", url);
 
         final JsonObjectRequest tutorItemsRequest = new JsonObjectRequest(
@@ -226,7 +231,8 @@ public class VolleySingleton {
                         try {
                             response = serverResponse;
                             List<String> tutorItemsList = new ArrayList<String>();
-                            JSONArray tutorItemsArray = response.getJSONArray("help");
+                            tutorItemsArray = response.getJSONArray("help");
+
                             for (int i = 0; i < tutorItemsArray.length(); i++) {
                                 tutorItemsList.add(tutorItemsArray.getString(i));
                             }
@@ -246,7 +252,34 @@ public class VolleySingleton {
         queue.add(tutorItemsRequest);
         return response;
     }
-}
 
-//    public void setTutorItem(String teacher, String class)
-//}
+    public void setTutorItem(String teacher, JSONObject classModule) {
+        response = new JSONObject();
+
+        String url = domainURL + "teacher/" + teacher;
+
+        final JsonObjectRequest setTutorItemRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                classModule,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+//                        try {
+//                            response = serverResponse;
+
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        queue.add(setTutorItemRequest);
+    }
+}
