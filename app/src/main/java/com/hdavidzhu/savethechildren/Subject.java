@@ -27,7 +27,7 @@ public class Subject extends Fragment {
         //Get instance of volley singleton and the getSubjects method that it defines
         VolleySingleton.getInstance().getSubjects(new SubjectsCallback() {
             @Override
-            //When Volley calls callback.handle this method can process the data from the get method
+            //When VolleySingleton calls callback.handle this method can process the data from the get method
             public void handle(List<String> subjects) {
                 items = subjects.toArray(new String[subjects.size()]);
                 final ArrayAdapter<String> adapter =
