@@ -53,7 +53,7 @@ public class Module extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MainActivity.tutorItems.add(items[i]);
 
-//                VolleySingleton.getInstance().
+//                VolleySingleton.getInstance().setTutorItem();
 
 //                activity.goBackToTutor();
 

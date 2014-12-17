@@ -50,9 +50,10 @@ public class MainActivity extends Activity{
 
         setContentView(R.layout.main_activity);
         setupTabs();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.main_activity_container, new newTutor());
-        ft.commit();
+
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.add(R.id.main_activity_container, new newTutor());
+//        ft.commit();
 
         VolleySingleton.getInstance().getTutors(new TutorsCallback() {
             @Override
@@ -98,13 +99,13 @@ public class MainActivity extends Activity{
 //        }
 
         switch (id) {
-            case R.id.new_entry:
-//                RecordTutorSessionActivity();
-//                MainActivity();
-//                Intent intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
-                selectFragment(new newTutor());
-                return true;
+//            case R.id.new_entry:
+////                RecordTutorSessionActivity();
+////                MainActivity();
+////                Intent intent = new Intent(this, MainActivity.class);
+////                startActivity(intent);
+//                selectFragment(new newTutor());
+//                return true;
             case R.id.roster:
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 Roster myRoster = new Roster();

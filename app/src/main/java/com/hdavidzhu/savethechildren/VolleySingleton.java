@@ -246,7 +246,35 @@ public class VolleySingleton {
         queue.add(tutorItemsRequest);
         return response;
     }
-}
 
-//    public void setTutorItem(String teacher, String class)
-//}
+    public void setTutorItem(String teacher, JSONObject classModule) {
+        response = new JSONObject();
+
+        String url = "http://192.168.56.101:3000/teacher/" + teacher;
+
+        final JsonObjectRequest setTutorItemRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                classModule,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+//                        try {
+                            response = serverResponse;
+                            List<String> tutorsList = new ArrayList<String>();
+
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        queue.add(setTutorItemRequest);
+    }
+}

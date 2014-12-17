@@ -110,20 +110,20 @@ public class Tutor extends Fragment{
         alert.show();
     }
 
-    private void handleBackPress() {
-        if (getView() != null) {
-            getView().setFocusableInTouchMode(true);
-            getView().setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        Log.i("DebugDebug", "Here");
-                        getFragmentManager().beginTransaction().replace(R.id.main_activity_container, new newTutor()).commit();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        }
-    }
+//    private void handleBackPress() {
+//        if (getView() != null) {
+//            getView().setFocusableInTouchMode(true);
+//            getView().setOnKeyListener(new View.OnKeyListener() {
+//                @Override
+//                public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+//                        Log.i("DebugDebug", "Here");
+//                        getFragmentManager().beginTransaction().replace(R.id.main_activity_container, new newTutor()).commit();
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
+//        }
+//    }
 }
