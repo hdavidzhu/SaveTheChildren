@@ -31,16 +31,11 @@ public class TNA extends Fragment {
 
         View view = inflater.inflate(R.layout.tna, container, false);
         ListView listView = (ListView)view.findViewById(R.id.tna_list_view);
-        // if extending Activity
-        //setContentView(R.layout.activity_main);
 
-        // 1. pass context and data to the custom adapter
+        // Pass context and data to the custom adapter
         adapter = new TNAModelAdapter(this.myContext, generateData());
 
-        // if extending Activity 2. Get ListView from activity_main.xml
-
-
-        // 3. setListAdapter
+        // Set ListAdapter
         listView.setAdapter(adapter);
         return view;
     }

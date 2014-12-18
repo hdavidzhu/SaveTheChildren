@@ -14,6 +14,7 @@ import android.widget.TextView;
 /**
  * Created by pmc on 12/17/14.
  */
+// This class is an adapter that handles TNA model data and views
 public class TNAModelAdapter extends ArrayAdapter<TNAModel> {
     private final Context context;
     private final ArrayList<TNAModel> modelsArrayList;
@@ -29,21 +30,21 @@ public class TNAModelAdapter extends ArrayAdapter<TNAModel> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // 1. Create inflater
+        // Create inflater
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // 2. Get rowView from inflater
+        // Get rowView from inflater
 
         View rowView = null;
         if(!modelsArrayList.get(position).isGroupHeader){
             rowView = inflater.inflate(R.layout.tna_target, parent, false);
 
-            // Get title & counter views from the rowView
+            // Get title and counter views from the rowView
             TextView titleView = (TextView) rowView.findViewById(R.id.item_title);
             TextView counterView = (TextView) rowView.findViewById(R.id.item_counter);
 
-            // Set the text for textView
+            // Set the text
             titleView.setText(modelsArrayList.get(position).getTitle());
             counterView.setText(modelsArrayList.get(position).getCounter());
         }
@@ -54,7 +55,6 @@ public class TNAModelAdapter extends ArrayAdapter<TNAModel> {
 
         }
 
-        // 5. return rowView
         return rowView;
     }
 }
