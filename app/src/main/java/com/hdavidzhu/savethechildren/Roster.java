@@ -23,16 +23,23 @@ public class Roster extends Fragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        //Input: The Main Activity activity
+        //Output: None
+        //This method is run when the fragment and the Main Activity first meet.
+        // It informs the Main Activity that this fragment belongs to the activity.
         this.activity = (MainActivity) activity;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
+        //Input: inflated layout, view container, and bundled instances saved by previous fragments
+        //Output: view
+        //This method runs every time Roster is called.
 
-        View view = inflater.inflate(R.layout.roster, container, false);
+        View view = inflater.inflate(R.layout.roster, container, false); //inflates the view with the appropriate layout
 
-        //Now you must initialize your list view
+        //initialize your list view
         ListView listview =(ListView)view.findViewById(R.id.list_view);
 
         tutorNames = MainActivity.names;
@@ -40,6 +47,7 @@ public class Roster extends Fragment{
         adapter = new ArrayAdapter<String>(view.getContext(), R.layout.roster_list_item, MainActivity.names);
         listview.setAdapter(adapter);
 
+        //when one of the items in the list is clicked, it gets added to the names String Array in Main Activity.
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
