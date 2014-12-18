@@ -6,19 +6,20 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
-/**
- * Created by casey on 12/15/14.
- */
+import com.hdavidzhu.savethechildren.callbacks.PostTutorCallback;
+import com.hdavidzhu.savethechildren.callbacks.TutorsCallback;
+
+import java.util.Collections;
+import java.util.List;
+
 public class NewTutor extends Fragment {
     Context context; //initialize context
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -39,6 +40,7 @@ public class NewTutor extends Fragment {
 
         View view = inflater.inflate(R.layout.adding_new_tutor, container, false); //inflate the view with this container
         view.setBackgroundColor(Color.rgb(20, 200, 300));
+
         final EditText tutorNameEdit = (EditText) view.findViewById(R.id.insert_name);
         view.findViewById(R.id.submit_tutor_name_button).setOnClickListener(new View.OnClickListener() {
 
@@ -52,8 +54,26 @@ public class NewTutor extends Fragment {
                 ft.replace(R.id.main_activity_container, new Roster());
                 ft.commit();
 
-            }
 
+                // POST the tutor, and then switch to a new Fragment when the tutor is successfully registered on the database.
+                VolleySingleton.getInstance().postTutor(name, new PostTutorCallback() {
+                    @Override
+                    public void handle() {
+                        VolleySingleton.getInstance().getTutors(new TutorsCallback() {
+                            @Override
+                            public void handle(List<String> tutors) {
+                                Collections.sort(tutors);
+                                MainActivity.names = tutors;
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.replace(R.id.main_activity_container, new Roster());
+                                ft.commit();
+                            }
+                        });
+                    }
+                });
+                // MainActivity.names.add(name);
+                tutorNameEdit.setText("");
+            }
         });
         return view;
     }

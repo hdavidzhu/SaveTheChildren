@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,19 +18,17 @@ import java.util.List;
 public class MainActivity extends Activity{
 
     public static List <String> tutorItems = new ArrayList<String>(){{
-        //This is the array that holds the class modules that each individual tutor feels they need training.
-       //This is a static list, therefore there are no outputs, but this array can get longer by calling this Array and adding to it.
-        add("Local Tutor Items"); //adds the string to the array.
+        // This is the array that holds the class modules that each individual tutor feels they need training.
+        // This is a static list, therefore there are no outputs, but this array can get longer by calling this Array and adding to it.
     }};
 
     public static List <String> names = new ArrayList<String>() {{
-        //This array holds the tutor names that will propagate the tutor Roster.
-        //This is a static list, therefore no outputs.
-        add("Local Tutor"); //adds string to list
+        // This array holds the tutor names that will propagate the tutor Roster.
+        // This is a static list, therefore no outputs.
     }};
-
     public static Tutor curTutor; //Static method, returns nothing.
     // Makes an instance of Tutor named cuTutor to track modules they need training.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,20 @@ public class MainActivity extends Activity{
                 switchFragment(new NewTutor());
                 return true;
             case R.id.roster: //if the roster button is clicked, call the select Fragment method and pass in an instance of Roster
-                switchFragment(new Roster());
+
+                VolleySingleton.getInstance().getTutors(new TutorsCallback() {
+                    @Override
+                    public void handle(List<String> tutors) {
+                        names = tutors;
+                        Log.d("Names", names.toString());
+
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        Roster myRoster = new Roster();
+                        ft.replace(R.id.main_activity_container, myRoster);
+                        ft.commit();
+                    }
+                });
+
                 return true;
         }
 
