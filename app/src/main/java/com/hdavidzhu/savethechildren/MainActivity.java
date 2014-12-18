@@ -15,20 +15,7 @@ import com.hdavidzhu.savethechildren.callbacks.TutorsCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-//DON'T FORGET TO ADD A BACK TO STACK
 public class MainActivity extends Activity{
-    //calls record tutor session
-
-//    EditText nameEditText;
-//    EditText notesEditText;
-//    TimePicker timePicker;
-//    DatePicker datePicker;
-//    Button submitButton;
-
-//    StudentsDb studentsDb;
-//    private static final String TAG = "Couch";
-//
-//    View.OnClickListener submitButtonListener;
 
     Roster rosterFragment = new Roster();
 
@@ -41,7 +28,6 @@ public class MainActivity extends Activity{
     }};
 
     public static Tutor curTutor;
-//    NewTutor tutorFragment = new NewTutor();
 
     // Initializing tabs
     @Override
@@ -55,12 +41,6 @@ public class MainActivity extends Activity{
         ft.add(R.id.main_activity_container, new NewTutor());
         ft.commit();
 
-        VolleySingleton.getInstance().getTutors(new TutorsCallback() {
-            @Override
-            public void handle(List<String> tutors) {
-                names = tutors;
-            }
-        });
     }
 
     private void setupTabs(){
@@ -107,10 +87,18 @@ public class MainActivity extends Activity{
                 selectFragment(new NewTutor());
                 return true;
             case R.id.roster:
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Roster myRoster = new Roster();
-                ft.replace(R.id.main_activity_container, myRoster);
-                ft.commit();
+
+                VolleySingleton.getInstance().getTutors(new TutorsCallback() {
+                    @Override
+                    public void handle(List<String> tutors) {
+                        names = tutors;
+
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        Roster myRoster = new Roster();
+                        ft.replace(R.id.main_activity_container, myRoster);
+                        ft.commit();
+                    }
+                });
 
                 return true;
         }

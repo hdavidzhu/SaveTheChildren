@@ -11,6 +11,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.hdavidzhu.savethechildren.callbacks.ClassModuleCallback;
 import com.hdavidzhu.savethechildren.callbacks.GradeCallback;
+import com.hdavidzhu.savethechildren.callbacks.PostTutorCallback;
 import com.hdavidzhu.savethechildren.callbacks.SubjectsCallback;
 import com.hdavidzhu.savethechildren.callbacks.TutorItemsCallback;
 import com.hdavidzhu.savethechildren.callbacks.TutorsCallback;
@@ -105,7 +106,6 @@ public class VolleySingleton {
                             response = serverResponse;
                             List<String> gradesList = new ArrayList<String>();
                             JSONArray gradesArray = response.getJSONArray("subject_info");
-                            Log.d("gradeLength", String.valueOf(gradesArray.length()));
                             for (int i = 0; i < gradesArray.length(); i++) {
                                 gradesList.add(gradesArray.getJSONObject(i).getString("name"));
                             }
@@ -215,6 +215,38 @@ public class VolleySingleton {
         return response;
     }
 
+    public void postTutor(String tutorName, final PostTutorCallback callback) {
+        String url = domainURL + "teachers/";
+
+        JSONObject tutorObject = new JSONObject();
+
+        try {
+            tutorObject.put("name", tutorName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final JsonObjectRequest postTutorRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                tutorObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                        callback.handle();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "POST failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        // Finally, add to the queue.
+        queue.add(postTutorRequest);
+    }
+
     public JSONObject getTutorItems(final String teacher, final TutorItemsCallback callback) {
         response = new JSONObject();
         String fixedTeacher = teacher.replaceAll(" ", "%20");
@@ -304,7 +336,6 @@ public class VolleySingleton {
         // Converting inputted classModule string into a JSONObject that can be sent through Volley's POST request.
         JSONObject classModuleObject = new JSONObject();
 
-//        classModule = classModule.replaceAll(" ", "%20");
         try {
             classModuleObject.put("module", classModule);
         } catch (JSONException e) {
