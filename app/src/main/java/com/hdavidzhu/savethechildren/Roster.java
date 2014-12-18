@@ -1,7 +1,9 @@
 package com.hdavidzhu.savethechildren;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ListView;
 
 public class Roster extends Fragment{
     MainActivity activity;
+    ArrayAdapter<String> adapter;
 
     @Override
     public void onAttach(Activity activity) {
@@ -39,6 +42,44 @@ public class Roster extends Fragment{
             }
         });
 
+        // This listener allows users to remove tutors from the roster using a long click
+        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Calls the alert dialog that gives tutors an option to confirm or cancel
+                removeItemFromList(i);
+                return false;
+            }
+        });
+
         return view;
+    }
+
+    // This method to takes in a position of the item that is clicked and then creates an alert dialog that allows users to delete the item
+    protected void removeItemFromList(int position) {
+        final int deletePosition = position;
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+        alert.setTitle("Delete");
+        alert.setMessage("Do you want delete this item?");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // main code on after clicking yes
+
+                VolleySingleton.getInstance().deleteTutorItem(MainActivity.curTutor.name, MainActivity.names.get(deletePosition));
+                MainActivity.names.remove(deletePosition);
+
+                adapter.notifyDataSetChanged();
+            }
+        });
+        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
     }
 }
