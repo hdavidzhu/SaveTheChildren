@@ -17,5 +17,7 @@
     <string name ="insert_name"> Please Add Your Name:</string>
     <string name="submit_tutor_info_button"> Submit Information </string>
     <string name="TNA">TNA</string>
+    <string name="TNA_tutors">TNA Tutors</string>
+    <string name="clear_training">Complete and Clear Training</string>
 </resources>
 
