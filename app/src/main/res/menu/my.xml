@@ -1,7 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:yourapp="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MyActivity" >
+    tools:context=".MyActivity"
+
+    >
 
     <item android:id="@+id/new_entry"
         android:title="@string/new_student_entry"

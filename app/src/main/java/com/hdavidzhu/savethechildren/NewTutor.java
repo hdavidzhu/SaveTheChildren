@@ -39,7 +39,6 @@ public class NewTutor extends Fragment {
         //This method runs every time NewTutor is called.
 
         View view = inflater.inflate(R.layout.adding_new_tutor, container, false); //inflate the view with this container
-        view.setBackgroundColor(Color.rgb(20, 200, 300));
 
         final EditText tutorNameEdit = (EditText) view.findViewById(R.id.insert_name);
         view.findViewById(R.id.submit_tutor_name_button).setOnClickListener(new View.OnClickListener() {
