@@ -34,7 +34,8 @@ public class VolleySingleton {
     JSONObject response;
     static RequestQueue queue;
 
-    String domainURL = "http://savethechildren.herokuapp.com/";
+    String domainURL = "http://192.168.56.101:3000/";
+//    String domainURL = "http://savethechildren.herokuapp.com/";
 
 
     JSONArray tutorItemsArray;
@@ -392,48 +393,6 @@ public class VolleySingleton {
         queue.add(setTutorItemRequest);
     }
 
-//    public void deleteRosterItem(String teacher, String classModule) {
-//        response = new JSONObject();
-//
-//
-//        String fixedTeacher = teacher.replaceAll(" ", "%20");
-//
-//        // Set the route for the tutor so we populate the modules for the right tutor.
-//        String url = domainURL + "teacher/" + fixedTeacher + "/delete/";
-//        Log.d("URL", url);
-//        Log.d("Class Module", classModule);
-//
-//        // Converting inputted classModule string into a JSONObject that can be sent through Volley's POST request.
-//        JSONObject classModuleObject = new JSONObject();
-//
-//        try {
-//            classModuleObject.put("module", classModule);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // Declare the DELETE request.
-//        final JsonObjectRequest setTutorItemRequest = new JsonObjectRequest(
-//                Request.Method.POST,
-//                url,
-//                classModuleObject,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject serverResponse) {
-//                        response = serverResponse;
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d("onErrorResponse", "Delete failed");
-//                Log.d("onErrorResponse", error.toString());
-//            }
-//        });
-//
-//        // Finally, add to the queue.
-//        queue.add(setTutorItemRequest);
-//    }
-
     public JSONObject getTNA(final TNACallback callback) {
         response = new JSONObject();
         String url = domainURL + "tna";
@@ -457,8 +416,6 @@ public class VolleySingleton {
                                 map.put(key,value);
                             }
 
-                            Log.d("MAP", map.toString());
-
                             callback.handle(map);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -480,7 +437,7 @@ public class VolleySingleton {
     public JSONObject getTNATutors(String classModule, final TNATutorCallback callback) {
         response = new JSONObject();
         String fixedClassModule = classModule.replaceAll(" ", "%20");
-        String url = domainURL + "tna" + fixedClassModule;
+        String url = domainURL + "tna/" + fixedClassModule;
 
         final JsonObjectRequest getTNATutorsRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -513,5 +470,30 @@ public class VolleySingleton {
         queue.add(getTNATutorsRequest);
 
         return response;
+    }
+
+    public void deleteTNA(String classModule, final TNATutorCallback callback) {
+        response = new JSONObject();
+        String fixedClassModule = classModule.replaceAll(" ", "%20");
+        String url = domainURL + "tna/" + fixedClassModule + "/delete/";
+
+        final JsonObjectRequest getTNATutorsRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                        callback.pass();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        queue.add(getTNATutorsRequest);
     }
 }
