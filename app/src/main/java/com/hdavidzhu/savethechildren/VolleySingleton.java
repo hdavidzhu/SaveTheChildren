@@ -13,6 +13,7 @@ import com.hdavidzhu.savethechildren.callbacks.ClassModuleCallback;
 import com.hdavidzhu.savethechildren.callbacks.GradeCallback;
 import com.hdavidzhu.savethechildren.callbacks.PostTutorCallback;
 import com.hdavidzhu.savethechildren.callbacks.SubjectsCallback;
+import com.hdavidzhu.savethechildren.callbacks.TNACallback;
 import com.hdavidzhu.savethechildren.callbacks.TutorItemsCallback;
 import com.hdavidzhu.savethechildren.callbacks.TutorsCallback;
 
@@ -21,7 +22,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class VolleySingleton {
     private static VolleySingleton mInstance;
@@ -387,45 +391,88 @@ public class VolleySingleton {
         queue.add(setTutorItemRequest);
     }
 
-    public void deleteRosterItem(String teacher, String classModule) {
+//    public void deleteRosterItem(String teacher, String classModule) {
+//        response = new JSONObject();
+//
+//
+//        String fixedTeacher = teacher.replaceAll(" ", "%20");
+//
+//        // Set the route for the tutor so we populate the modules for the right tutor.
+//        String url = domainURL + "teacher/" + fixedTeacher + "/delete/";
+//        Log.d("URL", url);
+//        Log.d("Class Module", classModule);
+//
+//        // Converting inputted classModule string into a JSONObject that can be sent through Volley's POST request.
+//        JSONObject classModuleObject = new JSONObject();
+//
+//        try {
+//            classModuleObject.put("module", classModule);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // Declare the DELETE request.
+//        final JsonObjectRequest setTutorItemRequest = new JsonObjectRequest(
+//                Request.Method.POST,
+//                url,
+//                classModuleObject,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject serverResponse) {
+//                        response = serverResponse;
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("onErrorResponse", "Delete failed");
+//                Log.d("onErrorResponse", error.toString());
+//            }
+//        });
+//
+//        // Finally, add to the queue.
+//        queue.add(setTutorItemRequest);
+//    }
+
+    public JSONObject getTNA(final TNACallback callback) {
         response = new JSONObject();
+        String url = domainURL + "tna";
 
-
-        String fixedTeacher = teacher.replaceAll(" ", "%20");
-
-        // Set the route for the tutor so we populate the modules for the right tutor.
-        String url = domainURL + "teacher/" + fixedTeacher + "/delete/";
-        Log.d("URL", url);
-        Log.d("Class Module", classModule);
-
-        // Converting inputted classModule string into a JSONObject that can be sent through Volley's POST request.
-        JSONObject classModuleObject = new JSONObject();
-
-        try {
-            classModuleObject.put("module", classModule);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // Declare the DELETE request.
-        final JsonObjectRequest setTutorItemRequest = new JsonObjectRequest(
-                Request.Method.POST,
+        final JsonObjectRequest subjectsRequest = new JsonObjectRequest(
+                Request.Method.GET,
                 url,
-                classModuleObject,
+                null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject serverResponse) {
-                        response = serverResponse;
+                        try {
+                            response = serverResponse;
+
+                            // Convert JSONObject to Map
+                            Map<String,String> map = new HashMap<String,String>();
+                            Iterator iter = response.keys();
+                            while(iter.hasNext()){
+                                String key = (String)iter.next();
+                                String value = response.getString(key);
+                                map.put(key,value);
+                            }
+
+                            Log.d("MAP", map.toString());
+
+                            callback.handle(map);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("onErrorResponse", "Delete failed");
+                Log.d("onErrorResponse", "Get failed");
                 Log.d("onErrorResponse", error.toString());
             }
         });
 
-        // Finally, add to the queue.
-        queue.add(setTutorItemRequest);
+        queue.add(subjectsRequest);
+
+        return response;
     }
 }
