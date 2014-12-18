@@ -29,8 +29,8 @@ public class VolleySingleton {
     JSONObject response;
     static RequestQueue queue;
 
-    //String domainURL = "http://192.168.56.101:3000/";
-    String domainURL = "http://savethechildren.herokuapp.com/";
+    String domainURL = "http://192.168.56.101:3000/";
+    // String domainURL = "http://savethechildren.herokuapp.com/";
 
     JSONArray tutorItemsArray;
 
@@ -245,6 +245,29 @@ public class VolleySingleton {
 
         // Finally, add to the queue.
         queue.add(postTutorRequest);
+    }
+
+    public void deleteTutor(String tutorName) {
+        String fixedTutor = tutorName.replaceAll(" ", "%20");
+        String url = domainURL + "teachers/delete/" + fixedTutor;
+
+        final JsonObjectRequest tutorsRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        queue.add(tutorsRequest);
     }
 
     public JSONObject getTutorItems(final String teacher, final TutorItemsCallback callback) {

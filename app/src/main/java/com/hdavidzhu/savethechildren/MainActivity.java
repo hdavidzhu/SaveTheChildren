@@ -17,16 +17,8 @@ import java.util.List;
 
 public class MainActivity extends Activity{
 
-    Roster rosterFragment = new Roster();
-
-    public static List <String> tutorItems = new ArrayList<String>(){{
-        add("Local Tutor Items");
-    }};
-
-    public static List <String> names = new ArrayList<String>() {{
-        add("Local Tutor");
-    }};
-
+    public static List <String> tutorItems = new ArrayList<String>();
+    public static List <String> names = new ArrayList<String>();
     public static Tutor curTutor;
 
     // Initializing tabs
@@ -92,6 +84,7 @@ public class MainActivity extends Activity{
                     @Override
                     public void handle(List<String> tutors) {
                         names = tutors;
+                        Log.d("Names", names.toString());
 
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         Roster myRoster = new Roster();

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.List;
+
 public class Roster extends Fragment{
     MainActivity activity;
     ArrayAdapter<String> adapter;
+    List<String> tutorNames;
 
     @Override
     public void onAttach(Activity activity) {
@@ -31,8 +35,9 @@ public class Roster extends Fragment{
         //Now you must initialize your list view
         ListView listview =(ListView)view.findViewById(R.id.list_view);
 
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(view.getContext(), R.layout.roster_list_item, MainActivity.names);
+        tutorNames = MainActivity.names;
+
+        adapter = new ArrayAdapter<String>(view.getContext(), R.layout.roster_list_item, MainActivity.names);
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -48,7 +53,7 @@ public class Roster extends Fragment{
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Calls the alert dialog that gives tutors an option to confirm or cancel
                 removeItemFromList(i);
-                return false;
+                return true;
             }
         });
 
@@ -68,9 +73,8 @@ public class Roster extends Fragment{
             public void onClick(DialogInterface dialog, int which) {
                 // main code on after clicking yes
 
-                VolleySingleton.getInstance().deleteTutorItem(MainActivity.curTutor.name, MainActivity.names.get(deletePosition));
+                VolleySingleton.getInstance().deleteTutor(MainActivity.names.get(deletePosition));
                 MainActivity.names.remove(deletePosition);
-
                 adapter.notifyDataSetChanged();
             }
         });
