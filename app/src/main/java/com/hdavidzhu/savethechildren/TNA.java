@@ -40,6 +40,8 @@ public class TNA extends Fragment {
         return view;
     }
 
+    //TODO: Volley could go here, or it could go in the TNAMODEL file?
+
     private ArrayList<TNAModel> generateData(){
         ArrayList<TNAModel> models = new ArrayList<TNAModel>();
         models.add(new TNAModel("Group Title"));

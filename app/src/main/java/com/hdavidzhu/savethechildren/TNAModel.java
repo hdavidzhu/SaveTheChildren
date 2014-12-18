@@ -21,6 +21,7 @@ public class TNAModel {
         this.counter = counter;
     }
 
+    //TODO: POssibly volley?
     public String getTitle() {
         return title;
     }

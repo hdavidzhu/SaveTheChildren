@@ -33,7 +33,7 @@ public class TNARequest extends Fragment {
         //initialize your list view
         ListView listview =(ListView)view.findViewById(R.id.list_view);
 
-        //Volley goes here
+        //TODO: Volley goes here, reference Tutor for rough equivalent
 
         adapter = new ArrayAdapter<String>(view.getContext(), R.layout.tna_req_list_item, MainActivity.names);
         listview.setAdapter(adapter);
