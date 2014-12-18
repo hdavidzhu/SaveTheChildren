@@ -16,12 +16,14 @@ import java.util.ArrayList;
  */
 public class TNA extends Fragment {
     MainActivity activity;
-    Context context;
+    Context myContext;
+    TNAModelAdapter adapter;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (MainActivity) activity;
+        this.myContext = activity.getApplicationContext();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +35,7 @@ public class TNA extends Fragment {
         //setContentView(R.layout.activity_main);
 
         // 1. pass context and data to the custom adapter
-        TNAModelAdapter adapter = new TNAModelAdapter(context, generateData());
+        adapter = new TNAModelAdapter(this.myContext, generateData());
 
         // if extending Activity 2. Get ListView from activity_main.xml
 

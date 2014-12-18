@@ -16,5 +16,6 @@
     <string name="training_modules">Select Module</string>
     <string name ="insert_name"> Please Add Your Name:</string>
     <string name="submit_tutor_info_button"> Submit Information </string>
+    <string name="TNA">TNA</string>
 </resources>
 
