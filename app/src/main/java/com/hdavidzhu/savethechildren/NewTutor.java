@@ -47,13 +47,9 @@ public class NewTutor extends Fragment {
             @Override
             public void onClick(View view) { //onClickListener, Listens for button press
                 String name  = tutorNameEdit.getText().toString();
+                if (name.length() == 0) return;
                 MainActivity.names.add(name); //add the string typed by the user to the Main Activity names array.
                 tutorNameEdit.setText("");
-                //Replace this NewTutor fragment with a new instance of the Roster fragment.
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_activity_container, new Roster());
-                ft.commit();
-
 
                 // POST the tutor, and then switch to a new Fragment when the tutor is successfully registered on the database.
                 VolleySingleton.getInstance().postTutor(name, new PostTutorCallback() {
@@ -61,9 +57,11 @@ public class NewTutor extends Fragment {
                     public void handle() {
                         VolleySingleton.getInstance().getTutors(new TutorsCallback() {
                             @Override
-                            public void handle(List<String> tutors) {
+                            public void handle(List<String> tutors) throws InterruptedException {
                                 Collections.sort(tutors);
                                 MainActivity.names = tutors;
+
+                                //Replace this NewTutor fragment with a new instance of the Roster fragment.
                                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                                 ft.replace(R.id.main_activity_container, new Roster());
                                 ft.commit();

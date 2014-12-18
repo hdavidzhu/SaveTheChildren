@@ -206,6 +206,8 @@ public class VolleySingleton {
                             callback.handle(tutorsList);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
