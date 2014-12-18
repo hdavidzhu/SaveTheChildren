@@ -98,9 +98,7 @@ public class Tutor extends Fragment{
 
                 VolleySingleton.getInstance().deleteTutorItem(MainActivity.curTutor.name, arr.get(deletePosition));
                 arr.remove(deletePosition);
-
                 adapter.notifyDataSetChanged();
-
             }
         });
         alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

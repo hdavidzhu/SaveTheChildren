@@ -17,81 +17,85 @@ import java.util.List;
 
 public class MainActivity extends Activity{
 
-    Roster rosterFragment = new Roster();
-
     public static List <String> tutorItems = new ArrayList<String>(){{
-        add("Local Tutor Items");
+        // This is the array that holds the class modules that each individual tutor feels they need training.
+        // This is a static list, therefore there are no outputs, but this array can get longer by calling this Array and adding to it.
     }};
 
     public static List <String> names = new ArrayList<String>() {{
-        add("Local Tutor");
+        // This array holds the tutor names that will propagate the tutor Roster.
+        // This is a static list, therefore no outputs.
     }};
+    public static Tutor curTutor; //Static method, returns nothing.
+    // Makes an instance of Tutor named cuTutor to track modules they need training.
 
-    public static Tutor curTutor;
 
-    // Initializing tabs
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main_activity);
-        setupTabs();
+        //Inputs: None.
+        //Outputs: None
+        //First Method called when start up. Method sets up tabs ands calls New Tutor page
+        setContentView(R.layout.main_activity); //Set the layout of the MainActivity page
+        setupTabs(); //call to the function setupTabs below.
+        FragmentTransaction ft = getFragmentManager().beginTransaction(); //initialize fragment manager
+        ft.add(R.id.main_activity_container, new NewTutor()); //adds a fragment to the screen.
+        //Notice this Fragment Transaction adds the fragment NewTutor to the container.
+        // The first time Fragment transaction is called, a fragment needs to be added to the container.
+        // Every time afterwards, the fragment manager replaces the current fragment.
+        ft.commit(); //commit fragment changes.
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.main_activity_container, new NewTutor());
-        ft.commit();
-
+        // Save the names of the tutors after a GET Request is sent to the server asking for the names.
+        VolleySingleton.getInstance().getTutors(new TutorsCallback() {
+            // Callbacks handle the information received by the phone from the server.
+            @Override
+            public void handle(List<String> tutors) {
+                //Inputs: List of strings of tutors.
+                //Outputs: None
+                names = tutors; //tutor strings from the database populates the names Array defined in Main Activity
+            }
+        });
     }
 
     private void setupTabs(){
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //Inputs: None
+        //Outputs: None
+
+        ActionBar actionBar = getActionBar(); //acquires the state of the action.
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS); //Android Navigation Mode for tab selection
         actionBar.setDisplayShowTitleEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.new_tutor, menu);
-        //getMenuInflater().inflate(R.menu.my, menu);
-        Log.d("Main Activity", "onCreateOptionsMenu");
+        //Input: the Action Bar Menu
+        //Output:Inflated Menu
+        // This method adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my, menu);
-
-        //return true;
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        if (rosterFragment.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-
-
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        //Input: Item selected
+        //Output: false until item is selected
+        // This method handles the action bar item clicks as long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        int id = item.getItemId(); //gets id for the action bar item clicked
 
         switch (id) {
-            case R.id.new_entry:
-//                RecordTutorSessionActivity();
-//                MainActivity();
-//                Intent intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
-                selectFragment(new NewTutor());
+            case R.id.new_entry: //if the new entry button is clicked, call select Fragment method and pass in an instance of NewTutor.
+                switchFragment(new NewTutor());
                 return true;
-            case R.id.roster:
+            case R.id.roster: //if the roster button is clicked, call the select Fragment method and pass in an instance of Roster
 
                 VolleySingleton.getInstance().getTutors(new TutorsCallback() {
                     @Override
                     public void handle(List<String> tutors) {
                         names = tutors;
+                        Log.d("Names", names.toString());
 
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         Roster myRoster = new Roster();
@@ -103,27 +107,35 @@ public class MainActivity extends Activity{
 
                 return true;
             case R.id.TNA:
-                selectFragment(new TNA());
+                switchFragment(new TNA());
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void selectFragment(Fragment fragment){
-        //add case statement
+    private void switchFragment(Fragment fragment){
+        //Input: Fragment to change to
+        //Output: None
+        //This method switches fragments
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.main_activity_container, fragment);
         ft.commit();
     }
 
     public void goBackToTutor() {
+        //Input:None
+        //Output:None
+        //This method bundles curTutor instance, packages its instance to keep track of the modules, and switches fragments.
         Bundle curTutorBundle = new Bundle();
-        selectFragment(curTutor);
+        switchFragment(curTutor); //switches back to old tutor
     }
 
     public void switchTutor(String newTutor) {
+        //Input: tutor Name
+        //Output: None
+        //This module saves the tutor name for later when we want to add modules to the tutor name.
         curTutor = Tutor.newInstance(newTutor);
-        goBackToTutor();
+        goBackToTutor();  //switches back to old tutor
     }
 }
