@@ -29,8 +29,8 @@ public class VolleySingleton {
     JSONObject response;
     static RequestQueue queue;
 
-    String domainURL = "http://192.168.56.101:3000/";
-    // String domainURL = "http://savethechildren.herokuapp.com/";
+    String domainURL = "http://savethechildren.herokuapp.com/";
+
 
     JSONArray tutorItemsArray;
 
