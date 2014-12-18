@@ -14,6 +14,7 @@ import com.hdavidzhu.savethechildren.callbacks.GradeCallback;
 import com.hdavidzhu.savethechildren.callbacks.PostTutorCallback;
 import com.hdavidzhu.savethechildren.callbacks.SubjectsCallback;
 import com.hdavidzhu.savethechildren.callbacks.TNACallback;
+import com.hdavidzhu.savethechildren.callbacks.TNATutorCallback;
 import com.hdavidzhu.savethechildren.callbacks.TutorItemsCallback;
 import com.hdavidzhu.savethechildren.callbacks.TutorsCallback;
 
@@ -437,7 +438,7 @@ public class VolleySingleton {
         response = new JSONObject();
         String url = domainURL + "tna";
 
-        final JsonObjectRequest subjectsRequest = new JsonObjectRequest(
+        final JsonObjectRequest getTNARequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
@@ -471,7 +472,45 @@ public class VolleySingleton {
             }
         });
 
-        queue.add(subjectsRequest);
+        queue.add(getTNARequest);
+
+        return response;
+    }
+
+    public JSONObject getTNATutors(String classModule, final TNATutorCallback callback) {
+        response = new JSONObject();
+        String fixedClassModule = classModule.replaceAll(" ", "%20");
+        String url = domainURL + "tna" + fixedClassModule;
+
+        final JsonObjectRequest getTNATutorsRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject serverResponse) {
+                        try {
+                            response = serverResponse;
+                            List<String> tutorsList = new ArrayList<String>();
+                            JSONArray tutorsArray = response.getJSONArray("teachers");
+                            for (int i = 0; i < tutorsArray.length(); i++) {
+                                tutorsList.add(tutorsArray.getString(i));
+                            }
+
+                            callback.handle(tutorsList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", "Get failed");
+                Log.d("onErrorResponse", error.toString());
+            }
+        });
+
+        queue.add(getTNATutorsRequest);
 
         return response;
     }
