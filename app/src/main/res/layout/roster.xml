@@ -9,14 +9,14 @@
     android:layout_height="fill_parent"
     android:id="@+id/list_view" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/roster_entry"/>
+    <!--<TextView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/roster_entry"/>-->
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/roster_frame_container"></FrameLayout>
+    <!--<FrameLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/roster_frame_container"></FrameLayout>-->
 
 </LinearLayout>

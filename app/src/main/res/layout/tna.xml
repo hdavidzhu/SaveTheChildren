@@ -6,6 +6,6 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/list_view" />
+        android:id="@+id/tna_list_view" />
 
 </LinearLayout>
