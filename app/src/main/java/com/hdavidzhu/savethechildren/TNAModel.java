@@ -1,9 +1,5 @@
 package com.hdavidzhu.savethechildren;
 
-/**
- * Created by pmc on 12/17/14.
- */
-
 // This model class handles data for the custom list view for TNA
 public class TNAModel {
     private String title;
@@ -21,7 +17,6 @@ public class TNAModel {
         this.counter = counter;
     }
 
-    //TODO: POssibly volley?
     public String getTitle() {
         return title;
     }

@@ -104,7 +104,6 @@ public class MainActivity extends Activity{
                     }
                 });
 
-
                 return true;
             case R.id.TNA:
                 switchFragment(new TNA());
