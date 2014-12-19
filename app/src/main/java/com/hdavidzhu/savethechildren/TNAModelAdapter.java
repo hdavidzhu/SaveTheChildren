@@ -43,6 +43,7 @@ public class TNAModelAdapter extends ArrayAdapter<TNAModel> {
             // Set the text
             titleView.setText(modelsArrayList.get(position).getTitle());
             titleView.setTextColor(Color.BLACK);
+            titleView.setTextSize(18);
             counterView.setText(modelsArrayList.get(position).getCounter());
         }
         else{

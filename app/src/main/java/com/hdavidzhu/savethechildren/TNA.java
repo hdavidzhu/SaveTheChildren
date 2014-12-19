@@ -46,7 +46,7 @@ public class TNA extends Fragment {
             public void handle(Map TNA) {
                 Iterator it = TNA.entrySet().iterator();
                 models = new ArrayList<TNAModel>();
-                models.add(new TNAModel("Group Title"));
+                models.add(new TNAModel("Needs Training"));
 
 //                models.add(new TNAModel("Group Title"));
                 while (it.hasNext()) {
