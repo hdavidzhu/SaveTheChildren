@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hdavidzhu.savethechildren.callbacks.TNACallback;
 
@@ -38,13 +39,14 @@ public class TNA extends Fragment {
         // if extending Activity
         //setContentView(R.layout.activity_main);
 
-        // 1. pass context and data to the custom adapter
+        // pass context and data to the custom adapter
 
         VolleySingleton.getInstance().getTNA(new TNACallback() {
             @Override
             public void handle(Map TNA) {
                 Iterator it = TNA.entrySet().iterator();
                 models = new ArrayList<TNAModel>();
+                models.add(new TNAModel("Group Title"));
 
 //                models.add(new TNAModel("Group Title"));
                 while (it.hasNext()) {
@@ -55,9 +57,7 @@ public class TNA extends Fragment {
 
                 adapter = new TNAModelAdapter(activity.getApplicationContext(), models);
 
-                // if extending Activity 2. Get ListView from activity_main.xml
-
-                // 3. setListAdapter
+                // setListAdapter
                 listView.setAdapter(adapter);
             }
         });

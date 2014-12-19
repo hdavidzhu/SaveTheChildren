@@ -1,5 +1,6 @@
 package com.hdavidzhu.savethechildren;
 
+import android.graphics.Color;
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class TNAModelAdapter extends ArrayAdapter<TNAModel> {
 
             // Set the text
             titleView.setText(modelsArrayList.get(position).getTitle());
+            titleView.setTextColor(Color.BLACK);
             counterView.setText(modelsArrayList.get(position).getCounter());
         }
         else{
