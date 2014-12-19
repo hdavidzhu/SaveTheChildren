@@ -10,7 +10,7 @@
     <string name="tutor_name">Tutor Name</string>
     <string name="teacher_notes">Notes</string>
     <string name="submit">Submit</string>
-    <string name="add">Add</string>
+    <string name="add">Add Module For Training</string>
     <string name="training_subjects">Select Subject</string>
     <string name="training_grades">Select Grade Level</string>
     <string name="training_modules">Select Module</string>
@@ -19,5 +19,12 @@
     <string name="TNA">TNA</string>
     <string name="TNA_tutors">TNA Tutors</string>
     <string name="clear_training">Complete and Clear Training</string>
+    <string name="add_more_training"> Modules For Training:</string>
+    <string name="button1"> New Tutor </string>
+    <string name="button2"> Teacher Roster </string>
+    <string name="button3"> TNA </string>
+    <color name="grey">#454445</color>
+    <color name="button">#2B2B2B</color>
+    <color name="button_text">#FFFFFF</color>
 </resources>
 
